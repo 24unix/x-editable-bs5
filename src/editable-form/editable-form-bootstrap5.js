@@ -5,41 +5,41 @@ Editableform based on Twitter Bootstrap 3
     "use strict";
     
     //store parent methods
-    var pInitInput = $.fn.editableform.Constructor.prototype.initInput;
+    const pInitInput = $.fn.editableform.Constructor.prototype.initInput;
     
     $.extend($.fn.editableform.Constructor.prototype, {
-        initTemplate: function() {
-            this.$form = $($.fn.editableform.template); 
-            this.$form.find('.control-group').addClass('form-group');
-            this.$form.find('.editable-error-block').addClass('help-block');
-        },
+        // initTemplate: function() {
+        //     this.$form = $($.fn.editableform.template);
+        //     this.$form.find('.control-group').addClass('form-group');
+        //     this.$form.find('.editable-error-block').addClass('help-block');
+        // },
         initInput: function() {  
             pInitInput.apply(this);
 
             //for bs3 set default class `input-sm` to standard inputs
-            var emptyInputClass = this.input.options.inputclass === null || this.input.options.inputclass === false;
-            var defaultClass = 'input-sm';
+            const emptyInputClass = this.input.options.inputclass === null || this.input.options.inputclass === false;
+            const defaultClass = 'input-sm';
             
             //bs3 add `form-control` class to standard inputs
-            var stdtypes = 'text,select,textarea,password,email,url,tel,number,range,time,typeaheadjs'.split(','); 
+            const stdtypes = 'text,select,textarea,password,email,url,tel,number,range,time,typeaheadjs'.split(',');
             if(~$.inArray(this.input.type, stdtypes)) {
-                this.input.$input.addClass('form-control');
+                this.input.$input.addClass('form-control editable');
                 if(emptyInputClass) {
                     this.input.options.inputclass = defaultClass;
                     this.input.$input.addClass(defaultClass);
                 }
-            }             
+            }
+            // Automatically open select dropdown when clicked
+            if (this.input.type === 'select') {
+                setTimeout(() => {
+                    this.input.$input.focus().click();
+                }, 50);
+            }
         
             //apply bs3 size class also to buttons (to fit size of control)
-            var $btn = this.$form.find('.editable-buttons');
-            var classes = emptyInputClass ? [defaultClass] : this.input.options.inputclass.split(' ');
-            for(var i=0; i<classes.length; i++) {
-                // `btn-sm` is default now
-                /*
-                if(classes[i].toLowerCase() === 'input-sm') { 
-                    $btn.find('button').addClass('btn-sm');  
-                }
-                */
+            const $btn = this.$form.find('.editable-buttons');
+            const classes = emptyInputClass ? [defaultClass] : this.input.options.inputclass.split(' ');
+            for(let i=0; i<classes.length; i++) {
                 if(classes[i].toLowerCase() === 'input-lg') {
                     $btn.find('button').removeClass('btn-sm').addClass('btn-lg'); 
                 }
@@ -50,10 +50,10 @@ Editableform based on Twitter Bootstrap 3
     //buttons
     $.fn.editableform.buttons = 
       '<button type="submit" class="btn btn-primary btn-sm editable-submit">'+
-        '<i class="glyphicon glyphicon-ok"></i>'+
+        '<i class="bi bi-check"></i>'+
       '</button>'+
-      '<button type="button" class="btn btn-default btn-sm editable-cancel">'+
-        '<i class="glyphicon glyphicon-remove"></i>'+
+      '<button type="button" class="btn btn-secondary btn-sm editable-cancel">'+
+        '<i class="bi bi-x"></i>'+
       '</button>';         
     
     //error classes
