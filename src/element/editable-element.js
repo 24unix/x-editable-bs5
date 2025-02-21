@@ -170,16 +170,16 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             if(this.options.display === false) {
                 return;
             }
-            
+
             //if input has `value2htmlFinal` method, we pass callback in third param to be called when source is loaded
             if(this.input.value2htmlFinal) {
-                return this.input.value2html(this.value, this.$element[0], this.options.display, response); 
-            //if display method defined --> use it    
+                return this.input.value2html(this.value, this.$element[0], this.options.display, response);
+            //if display method defined --> use it
             } else if(typeof this.options.display === 'function') {
                 return this.options.display.call(this.$element[0], this.value, response);
-            //else use input's original value2html() method    
+            //else use input's original value2html() method
             } else {
-                return this.input.value2html(this.value, this.$element[0]); 
+                return this.input.value2html(this.value, this.$element[0]);
             }
         },
         

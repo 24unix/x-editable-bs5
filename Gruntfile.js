@@ -47,7 +47,28 @@ function getFiles() {
                //don't build datetime lib, should be included manually
                //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
                 ]
-        }, 
+        },
+        bootstrap5: {
+            filePrefix: 'bootstrap', //to have bootstrap-editable.js instead of bootstrap3-editable
+            form: [forms+'editable-form-bootstrap5.js'],
+            container: [containers+'editable-popover5.js'],
+            inputs: [
+                inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                inputs+'date/date.js',
+                inputs+'date/datefield.js',
+                inputs+'datetime/datetime.js',
+                inputs+'datetime/datetimefield.js'
+                //don't build datetime lib, should be included manually
+                //inputs+'datetime/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js',
+                //no typeahead in bs3
+                //inputs+'typeahead.js'
+            ],
+            css: [
+                inputs+'date/bootstrap-datepicker/css/datepicker.css'
+                //don't build datetime lib, should be included manually
+                //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
+            ]
+        },
         jqueryui: {
             form: [forms+'editable-form-jqueryui.js'],
             container: [containers+'editable-tooltip.js'],
@@ -165,7 +186,7 @@ module.exports = function(grunt) {
         '* <%= pkg.description %>\n' +
         '* <%= pkg.homepage %>\n' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-        ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n';
+        ' Licensed <%= _.map(pkg.licenses, "type").join(", ") %> */\n';
  
  files.concat_files.options = {banner: banner};
  files.min_files.options = {banner: banner};
@@ -232,6 +253,7 @@ module.exports = function(grunt) {
     
     jshint: {
       options: {
+        esversion: 6,
         curly: true,
         eqeqeq: true,
         immed: true,

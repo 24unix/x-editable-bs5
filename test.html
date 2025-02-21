@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./dist/bootstrap3-editable/css/bootstrap-editable.css">
+        <script src="./node_modules/jquery/dist/jquery.js"></script>
+
+        <title>jQuery 3.7.1 & Bootstrap 5.3.3 Test</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-primary">jQuery 3.7.1 & Bootstrap 5.3.3 Test</h1>
+        </div>
+
+        <div class="container">
+            <h3>Test X-Editable Yes/No Switch</h3>
+            <p>Click on the text below to toggle Yes/No:</p>
+
+            <a href="#" id="yes-no-switch" class="editable editable-click" data-type="select" data-pk="1" data-url="/post" data-title="Select Yes/No">
+                Yes
+            </a>
+        </div>
+
+        <div id="debug"></div>
+        <script src="dist/bundle.js"></script>
+
+        <script type="module">
+            import './node_modules/bootstrap/dist/js/bootstrap.js';
+            import './dist/bootstrap5-editable/js/bootstrap-editable.js';
+
+            $(function() {
+                $.fn.editable.defaults.mode = 'inline'; // You can change to 'inline' if needed
+
+                $('#yes-no-switch').editable({
+                    type: 'select',
+                    source: [
+                        {value: 'yes', text: 'Yes'},
+                        {value: 'no', text: 'No'}
+                    ],
+                    success: function(response, newValue) {
+                        console.log("New value selected:", newValue);
+                    }
+                });
+
+            });
+        </script>
+    </body>
+</html>
