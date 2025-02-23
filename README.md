@@ -9,6 +9,9 @@ The original **x-editable** library was designed for Bootstrap 3 and has not bee
 - **Bootstrap Icons** (replacing Glyphicons)
 - General improvements for usability and maintainability
 
+NOTE: This repo has not yet been completely tested and is not available via NPM right now!
+
+Later: 
 ### Using npm:
 ```sh
 npm install x-editable-bootstrap5

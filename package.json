@@ -1,26 +1,37 @@
 {
   "name": "@24unix/x-editable",
   "title": "X-editable",
-  "description": "In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery",
+  "description": "A maintained fork of x-editable for Bootstrap 5 support.",
   "version": "1.5.1",
-  "homepage": "http://github.com/vitalets/x-editable",
+  "homepage": "https://git.24unix.net/tracer/x-editable",
   "author": {
-    "name": "Vitaliy Potapov",
-    "email": "noginsk@rambler.ru"
+    "name": "Micha Espey",
+    "email": "tracer@24unix.net"
   },
+  "contributors": [
+    {
+      "name": "Vitaliy Potapov",
+      "email": "noginsk@rambler.ru",
+      "url": "https://github.com/vitalets",
+      "contributions": "Original author of x-editable"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/vitalets/x-editable.git"
+    "url": "https://git.24unix.net/tracer/x-editable.git"
   },
   "bugs": {
-    "url": "https://github.com/vitalets/x-editable/issues"
+    "url": "https://git.24unix.net/tracer/x-editable/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/vitalets/x-editable/blob/master/LICENSE-MIT"
+      "url": "https://git.24unix.net/tracer/x-editable/blob/master/LICENSE-MIT"
     }
   ],
+  "main": "dist/bootstrap5-editable/js/bootstrap-editable.js",
+  "module": "dist/bootstrap5-editable/js/bootstrap-editable.esm.js",
+  "style": "dist/bootstrap5-editable/css/bootstrap-editable.css",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
@@ -43,5 +54,11 @@
     "style-loader": "^4.0.0",
     "webpack-cli": "^6.0.1"
   },
-  "keywords": []
+  "keywords": [
+    "editable",
+    "bootstrap5",
+    "jquery",
+    "in-place-editing",
+    "x-editable"
+  ]
 }
