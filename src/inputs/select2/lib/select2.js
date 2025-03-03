@@ -165,7 +165,7 @@ the specific language governing permissions and limitations under the Apache Lic
         var val, i, l;
         if (string === null || string.length < 1) return [];
         val = string.split(separator);
-        for (i = 0, l = val.length; i < l; i = i + 1) val[i] = $.trim(val[i]);
+        for (i = 0, l = val.length; i < l; i = i + 1) val[i] = val[i].trim();
         return val;
     }
 
@@ -968,7 +968,7 @@ the specific language governing permissions and limitations under the Apache Lic
                     } else if ("tags" in opts) {
                         opts.query = tags(opts.tags);
                         if (opts.createSearchChoice === undefined) {
-                            opts.createSearchChoice = function (term) { return {id: $.trim(term), text: $.trim(term)}; };
+                            opts.createSearchChoice = function (term) { return {id: term.trim(), text: term.trim()}; };
                         }
                         if (opts.initSelection === undefined) {
                             opts.initSelection = function (element, callback) {

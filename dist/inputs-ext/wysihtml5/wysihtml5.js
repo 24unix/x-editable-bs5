@@ -90,9 +90,9 @@ $(function(){
         },
         
         isEmpty: function($element) {
-            if($.trim($element.html()) === '') { 
+            if($element.html().trim() === '') {
                 return true;
-            } else if($.trim($element.text()) !== '') {
+            } else if($element.text().trim() !== '') {
                 return false;
             } else {
                 //e.g. '<img>', '<br>', '<p></p>'

@@ -52,7 +52,7 @@ To create your own input you can inherit from this class.
         @param {DOMElement} element
        **/
        value2html: function(value, element) {
-           $(element)[this.options.escape ? 'text' : 'html']($.trim(value));
+           $(element)[this.options.escape ? 'text' : 'html'](value.trim());
        },
 
        /**

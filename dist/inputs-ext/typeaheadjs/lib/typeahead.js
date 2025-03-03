@@ -124,10 +124,10 @@
             };
         },
         tokenizeQuery: function(str) {
-            return $.trim(str).toLowerCase().split(/[\s]+/);
+            return str.trim().toLowerCase().split(/[\s]+/);
         },
         tokenizeText: function(str) {
-            return $.trim(str).toLowerCase().split(/[\s\-_]+/);
+            return str.trim().toLowerCase().split(/[\s\-_]+/);
         },
         getProtocol: function() {
             return location.protocol;

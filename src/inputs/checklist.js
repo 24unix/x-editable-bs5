@@ -61,7 +61,7 @@ $(function(){
         str2value: function(str) {
            var reg, value = null;
            if(typeof str === 'string' && str.length) {
-               reg = new RegExp('\\s*'+$.trim(this.options.separator)+'\\s*');
+               reg = new RegExp('\\s*'+this.options.separator.trim()+'\\s*');
                value = str.split(reg);
            } else if(Array.isArray(str)) {
                value = str; 

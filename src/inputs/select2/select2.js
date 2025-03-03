@@ -259,7 +259,7 @@ $(function(){
             }
             val = str.split(separator);
             for (i = 0, l = val.length; i < l; i = i + 1) {
-                val[i] = $.trim(val[i]);
+                val[i] = val[i].trim();
             }
 
             return val;
