@@ -1,4 +1,4 @@
-/*! X-editable - v1.5.1_1 
+/*! X-editable - v1.5.2 
 * A maintained fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
