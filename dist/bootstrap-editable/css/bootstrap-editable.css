@@ -1,7 +1,7 @@
-/*! X-editable - v1.5.1 
-* In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery
-* http://github.com/vitalets/x-editable
-* Copyright (c) 2025 Vitaliy Potapov; Licensed MIT */
+/*! X-editable - v1.5.1_1 
+* A maintained fork of x-editable for Bootstrap 5 support.
+* https://git.24unix.net/tracer/x-editable
+* Copyright (c) 2025 Micha Espey; Licensed MIT */
 .editableform {
     margin-bottom: 0; /* overwrites bootstrap margin */
 }

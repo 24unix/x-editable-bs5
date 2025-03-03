@@ -1,28 +1,46 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
 
-
-module.exports = {
-    entry: './test.js',
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+module.exports = [
+    // CommonJS Build
+    {
+        entry: "./src/editable-form/editable-form-bootstrap5.js",
+        output: {
+            path: path.resolve(__dirname, "dist/bootstrap5-editable/js"),
+            filename: "bootstrap-editable.js",
+            library: {
+                type: "commonjs2"
             }
-        ]
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader"],
+                }
+            ]
+        }
     },
-    mode: 'development',
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
-            'window.jQuery': 'jquery',
-            'window.$': 'jquery'
-        })
-    ]
-};
+
+    // ES Module Build
+    {
+        entry: "./src/editable-form/editable-form-bootstrap5.js",
+        output: {
+            path: path.resolve(__dirname, "dist/bootstrap5-editable/js"),
+            filename: "bootstrap-editable.esm.js",
+            library: {
+                type: "module"
+            }
+        },
+        experiments: {
+            outputModule: true, // Ensures Webpack treats this as an ES module
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader"],
+                }
+            ]
+        }
+    }
+];

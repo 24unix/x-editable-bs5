@@ -70,7 +70,7 @@ List - abstract class for inputs that have source option loaded from js array or
             }            
             
             //if allready loaded just call success
-            if(this.options.sourceCache && $.isArray(this.sourceData)) {
+            if(this.options.sourceCache && Array.isArray(this.sourceData)) {
                 success.call(this);
                 return; 
             }
@@ -162,7 +162,7 @@ List - abstract class for inputs that have source option loaded from js array or
             } else { //options as json/array
                 this.sourceData = this.makeArray(source);
                     
-                if($.isArray(this.sourceData)) {
+                if(Array.isArray(this.sourceData)) {
                     this.doPrepend();
                     success.call(this);   
                 } else {
@@ -221,7 +221,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 return null; 
             }
 
-            if($.isArray(data)) { //array
+            if(Array.isArray(data)) { //array
                 /* 
                    function to iterate inside item of array if item is object.
                    Caclulates count of keys in item and store in obj. 

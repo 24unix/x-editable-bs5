@@ -1,7 +1,7 @@
-/*! X-editable - v1.5.1 
-* In-place editing with Twitter Bootstrap, jQuery UI or pure jQuery
-* http://github.com/vitalets/x-editable
-* Copyright (c) 2025 Vitaliy Potapov; Licensed MIT */
+/*! X-editable - v1.5.1_1 
+* A maintained fork of x-editable for Bootstrap 5 support.
+* https://git.24unix.net/tracer/x-editable
+* Copyright (c) 2025 Micha Espey; Licensed MIT */
 /**
 Form with single input element, two buttons and two states: normal/loading.
 Applied as jQuery method to DIV tag (not to form tag!). This is because form can be in loading state when spinner shown.
@@ -2610,7 +2610,7 @@ List - abstract class for inputs that have source option loaded from js array or
             }            
             
             //if allready loaded just call success
-            if(this.options.sourceCache && $.isArray(this.sourceData)) {
+            if(this.options.sourceCache && Array.isArray(this.sourceData)) {
                 success.call(this);
                 return; 
             }
@@ -2702,7 +2702,7 @@ List - abstract class for inputs that have source option loaded from js array or
             } else { //options as json/array
                 this.sourceData = this.makeArray(source);
                     
-                if($.isArray(this.sourceData)) {
+                if(Array.isArray(this.sourceData)) {
                     this.doPrepend();
                     success.call(this);   
                 } else {
@@ -2761,7 +2761,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 return null; 
             }
 
-            if($.isArray(data)) { //array
+            if(Array.isArray(data)) { //array
                 /* 
                    function to iterate inside item of array if item is object.
                    Caclulates count of keys in item and store in obj. 
