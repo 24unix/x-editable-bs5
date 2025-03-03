@@ -23,7 +23,7 @@
         isNumber: function(obj) {
             return typeof obj === "number";
         },
-        isArray: $.isArray,
+        isArray: Array.isArray,
         isFunction: $.isFunction,
         isObject: $.isPlainObject,
         isUndefined: function(obj) {

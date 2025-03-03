@@ -183,7 +183,7 @@ $(function(){
            }
 
            //data may be array (when multiple values allowed)
-           if($.isArray(data)) {
+           if(Array.isArray(data)) {
                //collect selected data and show with separator
                text = [];
                $.each(data, function(k, v){
@@ -193,7 +193,7 @@ $(function(){
                text = that.formatSelection(data);
            }
 
-           text = $.isArray(text) ? text.join(this.options.viewseparator) : text;
+           text = Array.isArray(text) ? text.join(this.options.viewseparator) : text;
 
            //$(element).text(text);
            Constructor.superclass.value2html.call(this, text, element); 
@@ -205,7 +205,7 @@ $(function(){
 
        value2input: function(value) {
            // if value array => join it anyway
-           if($.isArray(value)) {
+           if(Array.isArray(value)) {
               value = value.join(this.getSeparator());
            }
 
@@ -282,7 +282,7 @@ $(function(){
         select2 format: {id: 1, text: "1"}
         */
         convertSource: function(source) {
-            if($.isArray(source) && source.length && source[0].value !== undefined) {
+            if(Array.isArray(source) && source.length && source[0].value !== undefined) {
                 for(var i = 0; i<source.length; i++) {
                     if(source[i].value !== undefined) {
                         source[i].id = source[i].value;

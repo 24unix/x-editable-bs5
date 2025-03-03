@@ -64,7 +64,7 @@
         sliceObj: function(obj, keys, caseSensitive /* default: false */) {
             var key, keyLower, newObj = {};
 
-            if (!$.isArray(keys) || !keys.length) {
+            if (!Array.isArray(keys) || !keys.length) {
                 return newObj;
             }
 
@@ -144,7 +144,7 @@
                valueProp = function (e) { return e[idKey]; };
            }
                       
-           var isValArray = $.isArray(value),
+           var isValArray = Array.isArray(value),
            result = [], 
            that = this;
 

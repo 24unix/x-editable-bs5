@@ -704,7 +704,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         sliceObj: function(obj, keys, caseSensitive /* default: false */) {
             var key, keyLower, newObj = {};
 
-            if (!$.isArray(keys) || !keys.length) {
+            if (!Array.isArray(keys) || !keys.length) {
                 return newObj;
             }
 
@@ -784,7 +784,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
                valueProp = function (e) { return e[idKey]; };
            }
                       
-           var isValArray = $.isArray(value),
+           var isValArray = Array.isArray(value),
            result = [], 
            that = this;
 
@@ -2669,7 +2669,7 @@ List - abstract class for inputs that have source option loaded from js array or
                             cache.loading = false;
                         }
                         this.sourceData = this.makeArray(data);
-                        if($.isArray(this.sourceData)) {
+                        if(Array.isArray(this.sourceData)) {
                             if(cache) {
                                 //store result in cache
                                 cache.sourceData = this.sourceData;
@@ -2716,7 +2716,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 return;  
             }
             
-            if(!$.isArray(this.prependData)) {
+            if(!Array.isArray(this.prependData)) {
                 //run prepend if it is function (once)
                 if ($.isFunction(this.options.prepend)) {
                     this.options.prepend = this.options.prepend.call(this.options.scope);
@@ -2733,7 +2733,7 @@ List - abstract class for inputs that have source option loaded from js array or
                 this.prependData = this.makeArray(this.options.prepend);
             }
 
-            if($.isArray(this.prependData) && $.isArray(this.sourceData)) {
+            if(Array.isArray(this.prependData) && Array.isArray(this.sourceData)) {
                 this.sourceData = this.prependData.concat(this.sourceData);
             }
         },
@@ -3158,7 +3158,7 @@ $(function(){
 
             var fillItems = function($el, data) {
                 var attr;
-                if($.isArray(data)) {
+                if(Array.isArray(data)) {
                     for(var i=0; i<data.length; i++) {
                         attr = {};
                         if(data[i].children) {
@@ -3256,7 +3256,7 @@ $(function(){
             
             this.$tpl.empty();
             
-            if(!$.isArray(this.sourceData)) {
+            if(!Array.isArray(this.sourceData)) {
                 return;
             }
 
@@ -3275,7 +3275,7 @@ $(function(){
         },
        
        value2str: function(value) {
-           return $.isArray(value) ? value.sort().join($.trim(this.options.separator)) : '';
+           return Array.isArray(value) ? value.sort().join(this.options.separator.trim()) : '';
        },  
        
        //parse separated string
@@ -3284,7 +3284,7 @@ $(function(){
            if(typeof str === 'string' && str.length) {
                reg = new RegExp('\\s*'+$.trim(this.options.separator)+'\\s*');
                value = str.split(reg);
-           } else if($.isArray(str)) {
+           } else if(Array.isArray(str)) {
                value = str; 
            } else {
                value = [str];
@@ -3295,7 +3295,7 @@ $(function(){
        //set checked on required checkboxes
        value2input: function(value) {
             this.$input.prop('checked', false);
-            if($.isArray(value) && value.length) {
+            if(Array.isArray(value) && value.length) {
                this.$input.each(function(i, el) {
                    var $el = $(el);
                    // cannot use $.inArray as it performs strict comparison
@@ -3780,7 +3780,7 @@ $(function(){
            }
 
            //data may be array (when multiple values allowed)
-           if($.isArray(data)) {
+           if(Array.isArray(data)) {
                //collect selected data and show with separator
                text = [];
                $.each(data, function(k, v){
@@ -3790,7 +3790,7 @@ $(function(){
                text = that.formatSelection(data);
            }
 
-           text = $.isArray(text) ? text.join(this.options.viewseparator) : text;
+           text = Array.isArray(text) ? text.join(this.options.viewseparator) : text;
 
            //$(element).text(text);
            Constructor.superclass.value2html.call(this, text, element); 
@@ -3802,7 +3802,7 @@ $(function(){
 
        value2input: function(value) {
            // if value array => join it anyway
-           if($.isArray(value)) {
+           if(Array.isArray(value)) {
               value = value.join(this.getSeparator());
            }
 
@@ -3879,7 +3879,7 @@ $(function(){
         select2 format: {id: 1, text: "1"}
         */
         convertSource: function(source) {
-            if($.isArray(source) && source.length && source[0].value !== undefined) {
+            if(Array.isArray(source) && source.length && source[0].value !== undefined) {
                 for(var i = 0; i<source.length; i++) {
                     if(source[i].value !== undefined) {
                         source[i].id = source[i].value;
@@ -5070,7 +5070,7 @@ Editableform based on Twitter Bootstrap 3
 			}
 
 			o.daysOfWeekDisabled = o.daysOfWeekDisabled||[];
-			if (!$.isArray(o.daysOfWeekDisabled))
+			if (!Array.isArray(o.daysOfWeekDisabled))
 				o.daysOfWeekDisabled = o.daysOfWeekDisabled.split(/[,\s]*/);
 			o.daysOfWeekDisabled = $.map(o.daysOfWeekDisabled, function (d) {
 				return parseInt(d, 10);

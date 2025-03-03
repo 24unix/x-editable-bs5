@@ -35,7 +35,7 @@ $(function(){
             
             this.$tpl.empty();
             
-            if(!$.isArray(this.sourceData)) {
+            if(!Array.isArray(this.sourceData)) {
                 return;
             }
 
@@ -54,7 +54,7 @@ $(function(){
         },
        
        value2str: function(value) {
-           return $.isArray(value) ? value.sort().join($.trim(this.options.separator)) : '';
+           return Array.isArray(value) ? value.sort().join(this.options.separator.trim()) : '';
        },  
        
        //parse separated string
@@ -63,7 +63,7 @@ $(function(){
            if(typeof str === 'string' && str.length) {
                reg = new RegExp('\\s*'+$.trim(this.options.separator)+'\\s*');
                value = str.split(reg);
-           } else if($.isArray(str)) {
+           } else if(Array.isArray(str)) {
                value = str; 
            } else {
                value = [str];
@@ -74,7 +74,7 @@ $(function(){
        //set checked on required checkboxes
        value2input: function(value) {
             this.$input.prop('checked', false);
-            if($.isArray(value) && value.length) {
+            if(Array.isArray(value) && value.length) {
                this.$input.each(function(i, el) {
                    var $el = $(el);
                    // cannot use $.inArray as it performs strict comparison

@@ -34,7 +34,7 @@ $(function(){
 
             var fillItems = function($el, data) {
                 var attr;
-                if($.isArray(data)) {
+                if(Array.isArray(data)) {
                     for(var i=0; i<data.length; i++) {
                         attr = {};
                         if(data[i].children) {
