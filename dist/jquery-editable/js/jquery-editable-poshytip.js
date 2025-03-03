@@ -2601,7 +2601,7 @@ List - abstract class for inputs that have source option loaded from js array or
         onSourceReady: function (success, error) {
             //run source if it function
             var source;
-            if ($.isFunction(this.options.source)) {
+            if (typeof(this.options.source) === 'function') {
                 source = this.options.source.call(this.options.scope);
                 this.sourceData = null;
                 //note: if function returns the same source as URL - sourceData will be taken from cahce and no extra request performed
@@ -2718,7 +2718,7 @@ List - abstract class for inputs that have source option loaded from js array or
             
             if(!Array.isArray(this.prependData)) {
                 //run prepend if it is function (once)
-                if ($.isFunction(this.options.prepend)) {
+                if (typeof (this.options.prepend) === 'function') {
                     this.options.prepend = this.options.prepend.call(this.options.scope);
                 }
               
@@ -3695,7 +3695,7 @@ $(function(){
         if(!options.select2.tags && options.source) {
             var source = options.source;
             //if source is function, call it (once!)
-            if ($.isFunction(options.source)) {
+            if (typeof (options.source) === 'function') {
                 source = options.source.call(options.scope);
             }               
 

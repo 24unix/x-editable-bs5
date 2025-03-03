@@ -24,7 +24,7 @@
             return typeof obj === "number";
         },
         isArray: Array.isArray,
-        isFunction: $.isFunction,
+        isFunction: (object) => typeof object === "function" && typeof object.call === "function",
         isObject: $.isPlainObject,
         isUndefined: function(obj) {
             return typeof obj === "undefined";
@@ -33,7 +33,7 @@
         bindAll: function(obj) {
             var val;
             for (var key in obj) {
-                $.isFunction(val = obj[key]) && (obj[key] = $.proxy(val, obj));
+                typeof(val = obj[key]) === 'function' && (obj[key] = $.proxy(val, obj));
             }
         },
         indexOf: function(haystack, needle) {

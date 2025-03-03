@@ -98,7 +98,7 @@ $(function(){
         if(!options.select2.tags && options.source) {
             var source = options.source;
             //if source is function, call it (once!)
-            if ($.isFunction(options.source)) {
+            if (typeof (options.source) === 'function') {
                 source = options.source.call(options.scope);
             }               
 
