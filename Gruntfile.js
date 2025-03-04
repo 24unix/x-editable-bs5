@@ -291,6 +291,7 @@ module.exports = function(grunt) {
             files: [
             //image
             {expand: true, flatten: true, dest: '<%= dist %>/bootstrap3-editable/img/', src: 'src/img/*'}, 
+            {expand: true, flatten: true, dest: '<%= dist %>/bootstrap5-editable/img/', src: 'src/img/*'},
             {expand: true, flatten: true, dest: '<%= dist %>/bootstrap-editable/img/', src: 'src/img/*'},
             {expand: true, flatten: true, dest: '<%= dist %>/jqueryui-editable/img/', src: 'src/img/*'},
             {expand: true, flatten: true, dest: '<%= dist %>/jquery-editable/img/', src: 'src/img/*'},
