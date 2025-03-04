@@ -1,64 +1,71 @@
 /*
-Editableform based on Twitter Bootstrap 3
+Editableform based on Bootstrap 5 (No jQuery)
 */
-(function ($) {
+(() => {
     "use strict";
-    
-    //store parent methods
-    const pInitInput = $.fn.editableform.Constructor.prototype.initInput;
-    
-    $.extend($.fn.editableform.Constructor.prototype, {
-        // initTemplate: function() {
-        //     this.$form = $($.fn.editableform.template);
-        //     this.$form.find('.control-group').addClass('form-group');
-        //     this.$form.find('.editable-error-block').addClass('help-block');
-        // },
-        initInput: function() {  
-            pInitInput.apply(this);
 
-            //for bs3 set default class `input-sm` to standard inputs
-            const emptyInputClass = this.input.options.inputclass === null || this.input.options.inputclass === false;
-            const defaultClass = 'input-sm';
-            
-            //bs3 add `form-control` class to standard inputs
-            const stdtypes = 'text,select,textarea,password,email,url,tel,number,range,time,typeaheadjs'.split(',');
-            if(~$.inArray(this.input.type, stdtypes)) {
-                this.input.$input.addClass('form-control editable');
-                if(emptyInputClass) {
-                    this.input.options.inputclass = defaultClass;
-                    this.input.$input.addClass(defaultClass);
-                }
+    class EditableForm {
+        constructor(formElement, inputOptions = {}) {
+            this.formElement = formElement;
+            this.inputOptions = inputOptions;
+            this.inputType = inputOptions.type || "text";
+            this.initInput();
+        }
+
+        initInput() {
+            // Supported input types
+            const stdTypes = ["text", "select", "textarea", "password", "email", "url", "tel", "number", "range", "time", "typeaheadjs"];
+
+            if (stdTypes.includes(this.inputType)) {
+                this.formElement.classList.add("form-control", "editable");
             }
+
             // Automatically open select dropdown when clicked
-            if (this.input.type === 'select') {
+            if (this.inputType === "select") {
                 setTimeout(() => {
-                    this.input.$input.focus().click();
+                    this.formElement.focus();
+                    this.formElement.click();
                 }, 50);
             }
-        
-            //apply bs3 size class also to buttons (to fit size of control)
-            const $btn = this.$form.find('.editable-buttons');
-            const classes = emptyInputClass ? [defaultClass] : this.input.options.inputclass.split(' ');
-            for(let i=0; i<classes.length; i++) {
-                if(classes[i].toLowerCase() === 'input-lg') {
-                    $btn.find('button').removeClass('btn-sm').addClass('btn-lg'); 
+
+            // Apply Bootstrap 5 button size classes
+            const buttonContainer = this.formElement.closest(".editable-buttons");
+            if (buttonContainer) {
+                if (this.inputOptions.inputClass && this.inputOptions.inputClass.includes("input-lg")) {
+                    buttonContainer.querySelectorAll("button").forEach(btn => btn.classList.add("btn-lg"));
                 }
             }
         }
-    });    
-    
-    //buttons
-    $.fn.editableform.buttons = 
-      '<button type="submit" class="btn btn-primary btn-sm editable-submit">'+
-        '<i class="bi bi-check"></i>'+
-      '</button>'+
-      '<button type="button" class="btn btn-secondary btn-sm editable-cancel">'+
-        '<i class="bi bi-x"></i>'+
-      '</button>';         
-    
-    //error classes
-    $.fn.editableform.errorGroupClass = 'has-error';
-    $.fn.editableform.errorBlockClass = null;  
-    //engine
-    $.fn.editableform.engine = 'bs3';  
-}(window.jQuery));
+    }
+
+    // Create buttons dynamically
+    function createEditableButtons() {
+        const btnContainer = document.createElement("div");
+        btnContainer.classList.add("editable-buttons");
+
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.classList.add("btn", "btn-primary", "btn-sm", "editable-submit");
+        submitButton.innerHTML = '<i class="bi bi-check"></i>';
+
+        const cancelButton = document.createElement("button");
+        cancelButton.type = "button";
+        cancelButton.classList.add("btn", "btn-secondary", "btn-sm", "editable-cancel");
+        cancelButton.innerHTML = '<i class="bi bi-x"></i>';
+
+        btnContainer.appendChild(submitButton);
+        btnContainer.appendChild(cancelButton);
+
+        return btnContainer;
+    }
+
+    // Apply Bootstrap 5 validation classes
+    function applyErrorStyles(element) {
+        element.classList.add("is-invalid");
+        const errorBlock = document.createElement("div");
+        errorBlock.classList.add("invalid-feedback");
+        errorBlock.innerText = "Invalid input"; // You can dynamically update this message
+        element.after(errorBlock);
+    }
+
+})();
