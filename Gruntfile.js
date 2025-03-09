@@ -32,7 +32,7 @@ function getFiles() {
             form: [forms+'editable-form-bootstrap3.js'],
             container: [containers+'editable-popover3.js'],
             inputs: [
-                inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                // inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
                 inputs+'date/date.js', 
                 inputs+'date/datefield.js', 
                 inputs+'datetime/datetime.js', 
@@ -49,7 +49,7 @@ function getFiles() {
                 ]
         },
         bootstrap5: {
-            filePrefix: 'bootstrap', //to have bootstrap-editable.js instead of bootstrap3-editable
+            filePrefix: 'bootstrap', //to have bootstrap-editable.js instead of bootstrap5-editable
             form: [forms+'editable-form-bootstrap5.js'],
             container: [containers+'editable-popover5.js'],
             inputs: [
@@ -197,7 +197,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     dist: 'dist',
     
-    clean: ['<%= dist %>'],
+    // clean: ['<%= dist %>'],
     
     concat: files.concat_files,
     
@@ -267,7 +267,8 @@ module.exports = function(grunt) {
         browser: true,
         evil: false,
         globals: {
-            jQuery: true
+            jQuery: true,
+            console: true
         },  
       },
       js: [   'Gruntfile.js', 
@@ -333,8 +334,10 @@ module.exports = function(grunt) {
   grunt.registerTask('testover', ['jshint', 'connect', 'qunit:testover']);  
   
   // Default task.
-  grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'copy']);
-  
+    // fixme clean on real build
+  // grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'copy']);
+
   // alive server
   grunt.registerTask('server', 'connect:server:keepalive');
   

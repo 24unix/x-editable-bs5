@@ -3,47 +3,53 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./dist/bootstrap3-editable/css/bootstrap-editable.css">
-        <script src="./node_modules/jquery/dist/jquery.js"></script>
 
-        <title>jQuery 3.7.1 & Bootstrap 5.3.3 Test</title>
+        <link rel="stylesheet" href="./dist/bootstrap5-editable/css/bootstrap-editable.css">
+<!--        <script src="./dist/bootstrap5-editable/js/bootstrap-editable.js"></script>-->
+<!--        <script src="./dist/jquery.js"></script>-->
+        <script src="./dist/app.js" type="module"></script>
+
+        <title>Bootstrap 5.3.3 Test</title>
     </head>
     <body>
         <div class="container">
             <h1 class="text-primary">jQuery 3.7.1 & Bootstrap 5.3.3 Test</h1>
         </div>
 
-        <div class="container">
-            <h3>Test X-Editable Yes/No Switch</h3>
-            <p>Click on the text below to toggle Yes/No:</p>
+        <form id="test-form" action="test.php" method="post">
 
-            <a href="#" id="yes-no-switch" class="editable editable-click" data-type="select" data-pk="1" data-url="/post" data-title="Select Yes/No">
-                Yes
-            </a>
-        </div>
+            <div class="container mb-3">
+                <h3>Test X-Editable Yes/No Switch</h3>
+                <p>Click on the text below to toggle Yes/No:</p>
 
-        <div id="debug"></div>
-        <script src="dist/bundle.js"></script>
+                <a
+                    href="#"
+                    id="yes-no-switch"
+                    class="editable editable-click"
+                    data-type="select"
+                    data-pk="1"
+                    data-title="Select Yes/No"
+                >
+                    Yes
+                </a>
+            </div>
 
-        <script type="module">
-            import './node_modules/bootstrap/dist/js/bootstrap.js';
-            import './dist/bootstrap5-editable/js/bootstrap-editable.js';
+            <div class="container">
+                <h3>Test X-Editable Datepicker</h3>
+                <p>Click to select a date:</p>
 
-            $(function() {
-                $.fn.editable.defaults.mode = 'inline'; // You can change to 'inline' if needed
+                <a
+                    href="#"
+                    id="datepicker"
+                    class="editable editable-click"
+                    data-type="date"
+                    data-pk="1"
+                    data-title="Select Date"
+                >
+                    Yes
+                </a>
+            </div>
 
-                $('#yes-no-switch').editable({
-                    type: 'select',
-                    source: [
-                        {value: 'yes', text: 'Yes'},
-                        {value: 'no', text: 'No'}
-                    ],
-                    success: function(response, newValue) {
-                        console.log("New value selected:", newValue);
-                    }
-                });
-
-            });
-        </script>
+        </form>
     </body>
 </html>

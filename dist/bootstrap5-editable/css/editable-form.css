@@ -1,7 +1,3 @@
-/*! X-editable - v1.5.2 
-* A maintained fork of x-editable for Bootstrap 5 support.
-* https://git.24unix.net/tracer/x-editable
-* Copyright (c) 2025 Micha Espey; Licensed MIT */
 .editableform {
     margin-bottom: 0; /* overwrites bootstrap margin */
 }
@@ -155,70 +151,3 @@
 .editable-pre-wrapped {
    white-space: pre-wrap;
 }
-
-.editable-container.editable-popup {
-    max-width: none !important; /* without this rule poshytip/tooltip does not stretch */
-}  
-
-.editable-container.popover {
-    width: auto; /* without this rule popover does not stretch */
-}
-
-.editable-container.editable-inline {
-    display: inline-block; 
-    vertical-align: middle;
-    width: auto;
-    /* inline-block emulation for IE7*/
-    zoom: 1; 
-    *display: inline;    
-}
-
-.editable-container.ui-widget {
-   font-size: inherit;  /* jqueryui widget font 1.1em too big, overwrite it */
-   z-index: 9990; /* should be less than select2 dropdown z-index to close dropdown first when click */
-}
-.editable-click, 
-a.editable-click, 
-a.editable-click:hover {
-    text-decoration: none;
-    border-bottom: dashed 1px #0088cc;
-}
-
-.editable-click.editable-disabled, 
-a.editable-click.editable-disabled, 
-a.editable-click.editable-disabled:hover {
-   color: #585858;  
-   cursor: default;
-   border-bottom: none;
-}
-
-.editable-empty, .editable-empty:hover, .editable-empty:focus{
-  font-style: italic; 
-  color: #DD1144;  
-  /* border-bottom: none; */
-  text-decoration: none;
-}
-
-.editable-unsaved {
-  font-weight: bold; 
-}
-
-.editable-unsaved:after {
-/*    content: '*'*/
-}
-
-.editable-bg-transition {
-  -webkit-transition: background-color 1400ms ease-out;
-  -moz-transition: background-color 1400ms ease-out;
-  -o-transition: background-color 1400ms ease-out;
-  -ms-transition: background-color 1400ms ease-out;
-  transition: background-color 1400ms ease-out;  
-}
-
-/*see https://github.com/vitalets/x-editable/issues/139 */
-.form-horizontal .editable
-{ 
-    padding-top: 5px;
-    display:inline-block;
-}
-
