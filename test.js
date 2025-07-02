@@ -15,16 +15,7 @@ const Editable = require("bootstrap5-editable/js/bootstrap-editable");
 console.log("Editable:", Editable);
 $.fn.editable.defaults.mode = 'inline';
 
-// import("bootstrap5-editable/js/bootstrap-editable")
-//     .then((module) => {
-//         console.log("Loaded bootstrap-editable:", module);
-//         console.log("Module exports:", Object.keys(module)); // Log what is actually exported
-//         window.EditableForm = module.default || module;
-//         console.log("Window.EditableForm:", window.EditableForm);
-//     })
-//     .catch((err) => console.error("Error loading module:", err));
 $(function() {
-    console.log("hello world");
 
     $('#yes-no-switch').editable({
         type: 'select',
@@ -36,6 +27,31 @@ $(function() {
         },
         error: function(response) {
             console.error("Save error:", response);
+        }
+    });
+    console.log("Internal editable data:", $('#yes-no-switch').data('editable'));
+    const ed = $('#yes-no-switch').data('editable');
+    console.log("Internal editable data:", ed);
+    if (ed) {
+        console.log("TYPE:", ed.type, "OPTIONS:", ed.options);
+    }
+
+
+
+    $('#yes-no-switch-json').editable({
+        type: 'select',
+        url: 'test.php',  // URL to send the POST request
+        source: [         // Static array instead of URL
+            {value: 0, text: "No"},
+            {value: 1, text: "Yes"},
+            {value: 2, text: "Maybe"}
+        ],
+        value: 1,
+        success: function(response, newValue) {
+            console.log("Static source saved successfully:", response);
+        },
+        error: function(response) {
+            console.error("Static source save error:", response);
         }
     });
 

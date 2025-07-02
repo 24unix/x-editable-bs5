@@ -9,7 +9,6 @@ import $ from "jquery";
     //store parent methods
     const pInitInput = $.fn.editableform.Constructor.prototype.initInput;
 
-    console.log("EditableForm:", $.fn.editableform);
     $.extend($.fn.editableform.Constructor.prototype, {
         initTemplate: function() {
             this.$form = $($.fn.editableform.template);

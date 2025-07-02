@@ -19,12 +19,24 @@
         <form id="test-form" action="test.php" method="post">
 
             <div class="container mb-3">
-                <h3>Test X-Editable Yes/No Switch</h3>
+                <h3>Test X-Editable Yes/No Switch - AJAX Source</h3>
                 <p>Click on the text below to toggle Yes/No:</p>
 
                 <a
                     href="#"
                     id="yes-no-switch"
+                    class="editable editable-click"
+                >
+                    Yes
+                </a>
+            </div>
+
+            <div class="container mb-3">
+                <h3>Test X-Editable Static Source - JSON Source</h3>
+                <p>Click on the text below (uses static array, not AJAX):</p>
+                <a
+                    href="#"
+                    id="yes-no-switch-json"
                     class="editable editable-click"
                     data-type="select"
                     data-pk="1"
