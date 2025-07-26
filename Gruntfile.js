@@ -53,7 +53,7 @@ function getFiles() {
             form: [forms+'editable-form-bootstrap5.js'],
             container: [containers+'editable-popover5.js'],
             inputs: [
-                inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                // Bootstrap-datepicker now loaded from npm, not bundled
                 inputs+'date/date.js',
                 inputs+'date/datefield.js',
                 inputs+'datetime/datetime.js',
@@ -64,7 +64,7 @@ function getFiles() {
                 //inputs+'typeahead.js'
             ],
             css: [
-                inputs+'date/bootstrap-datepicker/css/datepicker.css'
+                // Bootstrap-datepicker CSS now loaded from npm, not bundled
                 //don't build datetime lib, should be included manually
                 //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
             ]

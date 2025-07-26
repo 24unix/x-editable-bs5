@@ -33,6 +33,7 @@
   "module": "dist/bootstrap5-editable/js/bootstrap-editable.esm.js",
   "style": "dist/bootstrap5-editable/css/bootstrap-editable.css",
   "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.61",
     "bootstrap": "^5.3.3",
     "bootstrap-datepicker": "^1.10.0",
     "bootstrap-icons": "^1.11.3",
