@@ -4965,27 +4965,22 @@ $(function(){
     }    
     
     var Date = function (options) {
-        console.log("Date constructor called with options:", options);
         this.init('date', options, Date.defaults);
         this.initPicker(options, Date.defaults);
         
         // Ensure type is set correctly
         this.type = 'date';
-        console.log("Date constructor completed, type set to:", this.type);
     };
 
     $.fn.editableutils.inherit(Date, $.fn.editabletypes.abstractinput);    
     
     $.extend(Date.prototype, {
         prerender: function() {
-            console.log("Date.prerender() called");
             // Call parent prerender
             Date.superclass.prerender.call(this);
-            console.log("Date.prerender() completed, $input:", this.$input[0]);
         },
         
         initPicker: function(options, defaults) {
-            console.log("Date.initPicker() called");
             //'format' is set directly from settings or data-* attributes
 
             //by default viewformat equals to format
@@ -5014,30 +5009,21 @@ $(function(){
         },
         
         render: function () {
-            // Debug: Check if render is being called
-            console.log("Date.render() called, options:", this.options.datepicker);
-            console.log("Input element for datepicker:", this.$input[0]);
-            
             // Ensure we have an input element
             if (!this.$input || !this.$input.length) {
-                console.error("No input element found in render()");
                 return;
             }
             
             // Initialize datepicker immediately
             try {
-                console.log("Attempting datepicker initialization in render()...");
                 this.$input.datepicker(this.options.datepicker);
-                console.log("Datepicker initialized successfully in render()");
-                console.log("Datepicker data after render:", this.$input.data('datepicker'));
                 
                 // Force set the initial value if we have one
                 if (this.value) {
-                    console.log("Setting initial value in render():", this.value);
                     this.$input.datepicker('setDate', this.value);
                 }
             } catch (error) {
-                console.error("Error initializing datepicker in render():", error);
+                // Silently handle datepicker initialization errors
             }
             
             //"clear" link
@@ -5074,59 +5060,41 @@ $(function(){
         },                    
 
         value2input: function(value) {
-            console.log("Date.value2input() called with value:", value);
-            console.log("Input element in value2input:", this.$input[0]);
-            console.log("Datepicker data in value2input:", this.$input.data('datepicker'));
-            
             // Ensure datepicker is initialized before trying to update
             if (!this.$input.data('datepicker')) {
-                console.log("Datepicker not initialized in value2input, initializing now...");
                 this.$input.datepicker(this.options.datepicker);
-                console.log("Datepicker data after manual init in value2input:", this.$input.data('datepicker'));
             }
             
             this.$input.datepicker('update', value);
         },
 
         input2value: function() { 
-            console.log("Date.input2value() called");
             var datepicker = this.$input.data('datepicker');
-            console.log("Datepicker object in input2value:", datepicker);
             
             if (datepicker) {
-                console.log("Datepicker.date:", datepicker.date);
-                console.log("Datepicker.dates:", datepicker.dates);
-                console.log("Datepicker.getDate():", typeof datepicker.getDate === 'function' ? datepicker.getDate() : 'getDate not available');
-                
                 if (datepicker.date) {
-                    console.log("Returning datepicker.date:", datepicker.date);
                     return datepicker.date;
                 }
                 
                 // Try getting date from dates array
                 if (datepicker.dates && datepicker.dates.length > 0) {
-                    console.log("Returning from dates array:", datepicker.dates[0]);
                     return datepicker.dates[0];
                 }
                 
                 // Try using getDate method
                 if (typeof datepicker.getDate === 'function') {
                     var dateFromMethod = datepicker.getDate();
-                    console.log("Returning from getDate():", dateFromMethod);
                     return dateFromMethod;
                 }
             }
             
             // Fallback: try to parse the input value directly
             var inputVal = this.$input.val();
-            console.log("Input value fallback:", inputVal);
             if (inputVal) {
                 var parsedDate = this.parseDate(inputVal, this.parsedViewFormat);
-                console.log("Parsed date fallback:", parsedDate);
                 return parsedDate;
             }
             
-            console.log("input2value returning null - no valid date found");
             return null;
         },       
 
@@ -5271,28 +5239,12 @@ Automatically shown in inline mode.
     
     $.extend(DateField.prototype, {
         render: function () {
-            console.log("DateField.render() called");
             this.$input = this.$tpl.find('input');
             this.setClass();
             this.setAttr('placeholder');
     
-            console.log("DateField initializing datepicker on container:", this.$tpl[0]);
-            console.log("DateField datepicker options:", this.options.datepicker);
-            
             //use datepicker instead of bdatepicker      
             this.$tpl.datepicker(this.options.datepicker);
-            
-            console.log("DateField datepicker initialized, data:", this.$tpl.data('datepicker'));
-            
-            // Add event listeners to track date changes
-            this.$tpl.on('changeDate', $.proxy(function(e) {
-                console.log("DateField changeDate event triggered:", e.date);
-            }, this));
-            
-            this.$tpl.on('hide', $.proxy(function(e) {
-                console.log("DateField datepicker hide event triggered");
-                console.log("DateField datepicker data on hide:", this.$tpl.data('datepicker'));
-            }, this));
             
             //need to disable original event handlers
             this.$input.off('focus keydown');
@@ -5306,32 +5258,23 @@ Automatically shown in inline mode.
         },   
         
        value2input: function(value) {
-           console.log("DateField.value2input() called with value:", value);
            var formattedValue = value ? this.dpg.formatDate(value, this.parsedViewFormat, this.options.datepicker.language) : '';
-           console.log("DateField formatted value for input:", formattedValue);
            this.$input.val(formattedValue);
            this.$tpl.datepicker('update');
-           console.log("DateField after update, datepicker data:", this.$tpl.data('datepicker'));
        },
         
        input2value: function() { 
-           console.log("DateField.input2value() called");
-           
            // First try the container datepicker (ideal case)
            var containerDatepicker = this.$tpl.data('datepicker');
-           console.log("DateField container datepicker object:", containerDatepicker);
            
            if (containerDatepicker && containerDatepicker.dates && containerDatepicker.dates.length > 0) {
-               console.log("DateField returning from container dates array:", containerDatepicker.dates[0]);
                return containerDatepicker.dates[0];
            }
            
            // Fallback: try the input datepicker (in case manual init worked)
            var inputDatepicker = this.$input.data('datepicker');
-           console.log("DateField input datepicker object:", inputDatepicker);
            
            if (inputDatepicker && inputDatepicker.dates && inputDatepicker.dates.length > 0) {
-               console.log("DateField returning from input dates array:", inputDatepicker.dates[0]);
                return inputDatepicker.dates[0];
            }
            
@@ -5339,7 +5282,6 @@ Automatically shown in inline mode.
            if (containerDatepicker && typeof containerDatepicker.getDate === 'function') {
                var containerDate = containerDatepicker.getDate();
                if (containerDate) {
-                   console.log("DateField returning from container getDate():", containerDate);
                    return containerDate;
                }
            }
@@ -5347,13 +5289,11 @@ Automatically shown in inline mode.
            if (inputDatepicker && typeof inputDatepicker.getDate === 'function') {
                var inputDate = inputDatepicker.getDate();
                if (inputDate) {
-                   console.log("DateField returning from input getDate():", inputDate);
                    return inputDate;
                }
            }
            
            // Final fallback to text parsing
-           console.log("DateField fallback to text input value:", this.$input.val());
            return this.html2value(this.$input.val());
        },              
         
