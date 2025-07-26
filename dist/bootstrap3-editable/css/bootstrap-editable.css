@@ -156,6 +156,20 @@
    white-space: pre-wrap;
 }
 
+/* Position datepicker above input for datepicker-above class */
+.datepicker-above .datepicker-inline {
+   position: absolute;
+   bottom: 100%;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   margin-bottom: 5px;
+   background: white;
+   border: 1px solid #dee2e6;
+   border-radius: 0.375rem;
+   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
 .editable-container.editable-popup {
     max-width: none !important; /* without this rule poshytip/tooltip does not stretch */
 }  

@@ -17,7 +17,7 @@ require("./dist/bootstrap5-editable/js/bootstrap-editable");
 console.log("$.fn.editable available:", typeof $.fn.editable);
 console.log("$.fn.datepicker available:", typeof $.fn.datepicker);
 console.log("$.fn.bdatepicker available:", typeof $.fn.bdatepicker);
-$.fn.editable.defaults.mode = 'popup';
+$.fn.editable.defaults.mode = 'inline';
 
 $(function() {
 
@@ -59,10 +59,13 @@ $(function() {
         }
     });
 
+    const initialDateValue = new Date().toISOString().split('T')[0];
+    console.log("Setting up datepicker with initial value:", initialDateValue);
+    
     $('#datepicker').editable({
         type: 'date',
         url: 'test.php',  // URL to send the POST request
-        value: new Date().toISOString().split('T')[0], // Set to current date (YYYY-MM-DD)
+        value: initialDateValue, // Set to current date (YYYY-MM-DD)
         format: 'yyyy-mm-dd', // Date format
         viewformat: 'dd/mm/yyyy', // How the user sees it
         datepicker: {
@@ -81,6 +84,8 @@ $(function() {
         console.log("Date save event:", params);
         console.log("Value being saved:", params.newValue);
         console.log("Submit value:", params.submitValue);
+    }).on('nochange', function(e) {
+        console.log("Date nochange event fired - values are considered equal");
     }).on('shown', function(e, editable) {
         console.log("Datepicker shown event fired", editable);
         
@@ -116,23 +121,8 @@ $(function() {
             console.log("Input $input.datepicker available:", typeof editable.input.$input.datepicker);
             console.log("Input $input.bdatepicker available:", typeof editable.input.$input.bdatepicker);
             
-            // Try to manually initialize datepicker to see if it works
-            try {
-                console.log("Attempting manual datepicker initialization...");
-                editable.input.$input.datepicker({
-                    weekStart: 1,
-                    autoclose: true,
-                    todayHighlight: true
-                });
-                console.log("Manual datepicker initialization successful!");
-                console.log("Input datepicker data after manual init:", editable.input.$input.data('datepicker'));
-                
-                // Try setting a date value manually
-                editable.input.$input.datepicker('setDate', new Date());
-                console.log("Set manual date, datepicker data now:", editable.input.$input.data('datepicker'));
-            } catch (error) {
-                console.error("Manual datepicker initialization failed:", error);
-            }
+            // Check if the datepicker is properly initialized (no manual override)
+            console.log("Checking if datepicker is properly initialized without manual intervention");
         }
     }).on('hidden', function(e, reason) {
         console.log("Datepicker hidden event fired, reason:", reason);

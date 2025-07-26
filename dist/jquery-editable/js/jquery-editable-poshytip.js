@@ -1503,7 +1503,10 @@ Makes editable any HTML element on the page. Applied as jQuery method.
             this.input = $.fn.editableutils.createInput(this.options);
             if(!this.input) {
                 return; 
-            }            
+            }
+            
+            // Set the editable's type from the input's type
+            this.type = this.input.type;            
 
             //set value from settings or by element's text
             if (this.options.value === undefined || this.options.value === null) {
