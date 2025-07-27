@@ -98,6 +98,16 @@ grunt build
 npx webpack --mode=development
 ```
 
+## Repository
+
+**Main Repository:** [git.24unix.net/tracer/x-editable-bs5](https://git.24unix.net/tracer/x-editable-bs5)
+
+**Mirrors:**
+- GitHub: [github.com/24unix/x-editable-bs5](https://github.com/24unix/x-editable-bs5)
+- GitLab: [gitlab.com/24unix/x-editable-bs5](https://gitlab.com/24unix/x-editable-bs5)
+
+Development happens on the main repository at git.24unix.net, with mirrors automatically synced to GitHub and GitLab.
+
 ## License
 
 This project maintains the same MIT license as the original x-editable project.

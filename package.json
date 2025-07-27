@@ -18,8 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://git.24unix.net/tracer/x-editable.git"
+    "url": "https://git.24unix.net/tracer/x-editable-bs5.git"
   },
+  "mirrors": [
+    "https://github.com/24unix/x-editable-bs5",
+    "https://gitlab.com/24unix/x-editable-bs5"
+  ],
   "bugs": {
     "url": "https://git.24unix.net/tracer/x-editable/issues"
   },
