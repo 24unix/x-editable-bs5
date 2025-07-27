@@ -6,48 +6,8 @@ function getFiles() {
     inputs = lib+'inputs/',
     containers = lib+'containers/';  
 
-    //config for different cores of lib 
+    //config for Bootstrap 5 only
     var config = {
-        bootstrap: {
-            form: [forms+'editable-form-bootstrap.js'],
-            container: [containers+'editable-popover.js'],
-            inputs: [
-                inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
-                inputs+'date/date.js', 
-                inputs+'date/datefield.js', 
-                inputs+'datetime/datetime.js', 
-                inputs+'datetime/datetimefield.js',
-                //don't build datetime lib, should be included manually 
-                //inputs+'datetime/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js',
-                inputs+'typeahead.js'
-                ], 
-            css: [
-                inputs+'date/bootstrap-datepicker/css/datepicker.css'
-               //don't build datetime lib, should be included manually
-               //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
-                ]
-        },
-        bootstrap3: {
-            filePrefix: 'bootstrap', //to have bootstrap-editable.js instead of bootstrap3-editable
-            form: [forms+'editable-form-bootstrap3.js'],
-            container: [containers+'editable-popover3.js'],
-            inputs: [
-                // inputs+'date/bootstrap-datepicker/js/bootstrap-datepicker.js',
-                inputs+'date/date.js', 
-                inputs+'date/datefield.js', 
-                inputs+'datetime/datetime.js', 
-                inputs+'datetime/datetimefield.js'
-                //don't build datetime lib, should be included manually 
-                //inputs+'datetime/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js',
-                //no typeahead in bs3
-                //inputs+'typeahead.js'
-                ], 
-            css: [
-                inputs+'date/bootstrap-datepicker/css/datepicker.css'
-               //don't build datetime lib, should be included manually
-               //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
-                ]
-        },
         bootstrap5: {
             filePrefix: 'bootstrap', //to have bootstrap-editable.js instead of bootstrap5-editable
             form: [forms+'editable-form-bootstrap5.js'],
@@ -55,38 +15,12 @@ function getFiles() {
             inputs: [
                 // Bootstrap-datepicker now loaded from npm, not bundled
                 inputs+'date/date.js',
-                inputs+'date/datefield.js',
-                inputs+'datetime/datetime.js',
-                inputs+'datetime/datetimefield.js'
-                //don't build datetime lib, should be included manually
-                //inputs+'datetime/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js',
-                //no typeahead in bs3
-                //inputs+'typeahead.js'
+                inputs+'date/datefield.js'
             ],
             css: [
                 // Bootstrap-datepicker CSS now loaded from npm, not bundled
-                //don't build datetime lib, should be included manually
-                //inputs+'datetime/bootstrap-datetimepicker/css/datetimepicker.css'
             ]
-        },
-        jqueryui: {
-            form: [forms+'editable-form-jqueryui.js'],
-            container: [containers+'editable-tooltip.js'],
-            inputs: [
-               inputs+'dateui/dateui.js',
-               inputs+'dateui/dateuifield.js'
-            ], 
-            css: []
-        },  
-        jquery: {
-            form: [],
-            container: [containers+'editable-poshytip.js'],
-            inputs: [
-               inputs+'dateui/dateui.js',
-               inputs+'dateui/dateuifield.js'
-            ],            
-            css: []
-        }      
+        }
     };
 
     //common js files 
@@ -102,10 +36,7 @@ function getFiles() {
         inputs+'textarea.js',
         inputs+'select.js',    
         inputs+'checklist.js',
-        inputs+'html5types.js',
-        inputs+'select2/select2.js',
-        inputs+'combodate/lib/combodate.js', 
-        inputs+'combodate/combodate.js'    
+        inputs+'html5types.js'
     ]; 
 
     //common css files
@@ -158,26 +89,11 @@ module.exports = function(grunt) {
  grunt.loadNpmTasks('grunt-contrib-copy');
  //grunt.loadNpmTasks('grunt-contrib-requirejs');
 
- //version of jquery-ui datepicker to be copied into dist
- //note: if change here => don't forget to change in gh-pages demo-plain.hbs !!!
- var dp_ui_ver = '1.10.3';
- 
  //module for testing
  var module = ''; 
-// module = '&module=combodate';
 // module = '&module=textarea';
 //module = '&module=select';
-//module = '&module=text';
-
-//test on several jquery versions
- var qunit_testover = [];
- ['bs3', 'bootstrap', 'jqueryui', 'plain'].forEach(function(f){
-     ['popup', 'inline'].forEach(function(c){
-         ['1.7.2', '1.8.3', '1.9.1', '1.10.2', '2.0.3'].forEach(function(jqver) {
-             qunit_testover.push('http://localhost:8000/test/index.html?f='+f+'&c='+c+'&jquery='+jqver+module); 
-         });
-     });
- });    
+//module = '&module=text';    
 
  //get js and css for different builds
  var files = getFiles();
@@ -204,44 +120,14 @@ module.exports = function(grunt) {
     uglify: files.min_files,
      
     qunit: {
-      bootstrap2: {
+      bootstrap5: {
           options: {
             urls: [
-                  'http://localhost:8000/test/index.html?f=bootstrap&c=popup'+module,
-                  'http://localhost:8000/test/index.html?f=bootstrap&c=inline'+module
+                  'http://localhost:8000/test/index.html?f=bs5&c=popup'+module,
+                  'http://localhost:8000/test/index.html?f=bs5&c=inline'+module
                  ]
           }
-      },
-      bootstrap3: {
-          options: {
-            urls: [
-                  'http://localhost:8000/test/index.html?f=bs3&c=popup'+module,
-                  'http://localhost:8000/test/index.html?f=bs3&c=inline'+module
-                 ]
-          }
-      },
-      jqueryui: {
-          options: {
-            urls:[
-                  'http://localhost:8000/test/index.html?f=jqueryui&c=popup'+module,
-                  'http://localhost:8000/test/index.html?f=jqueryui&c=inline'+module
-                 ]
-          }
-      },
-      plain: {
-          options: {
-            urls:[
-                  'http://localhost:8000/test/index.html?f=plain&c=popup'+module,
-                  'http://localhost:8000/test/index.html?f=plain&c=inline'+module
-             ]
-          }
-      },
-      //test all builds under several versions of jquery                                   
-      testover: {
-          options: {
-            urls:qunit_testover
-          }
-      },          
+      }         
     },
     
     connect: {
@@ -275,74 +161,33 @@ module.exports = function(grunt) {
               'src/editable-form/*.js', 
               'src/containers/*.js', 
               'src/element/*.js', 
-              
               'src/inputs/*.js', 
-              'src/inputs/date/*.js',
-              'src/inputs/dateui/*.js',
-              'src/inputs/datetime/*.js',
-              'src/inputs/combodate/*.js',
-              'src/inputs/select2/*.js',
-              
-              'src/inputs-ext/address/*.js',
-              'src/inputs-ext/wysihtml5/*.js'
+              'src/inputs/date/*.js'
           ]
     },
     copy: {
         dist: {
             files: [
             //image
-            {expand: true, flatten: true, dest: '<%= dist %>/bootstrap3-editable/img/', src: 'src/img/*'}, 
             {expand: true, flatten: true, dest: '<%= dist %>/bootstrap5-editable/img/', src: 'src/img/*'},
-            {expand: true, flatten: true, dest: '<%= dist %>/bootstrap-editable/img/', src: 'src/img/*'},
-            {expand: true, flatten: true, dest: '<%= dist %>/jqueryui-editable/img/', src: 'src/img/*'},
-            {expand: true, flatten: true, dest: '<%= dist %>/jquery-editable/img/', src: 'src/img/*'},
             //licences
             {expand: true, flatten: true, dest: '<%= dist %>/', src: ['LICENSE-MIT', 'README.md', 'CHANGELOG.txt']}
             ]
-        },
-        inputs_ext: {
-            expand: true, 
-            cwd: 'src/inputs-ext', 
-            src: '**',
-            dest:'<%= dist %>/inputs-ext/'
-        },
-        ui_datepicker: {
-            //copy jquery ui datepicker to jquery-editable build
-            expand: true, 
-            cwd: 'src/inputs/dateui/jquery-ui-datepicker', 
-            src: [
-                'js/jquery-ui-'+dp_ui_ver+'.*.js', 
-                'css/redmond/jquery-ui-'+dp_ui_ver+'.*.css',
-                'css/redmond/images/**'
-            ],
-            dest:'<%= dist %>/jquery-editable/jquery-ui-datepicker/'
-       }         
+        }      
     }
   });
 
   //test task
-  grunt.registerTask('test', ['jshint', 'connect', 'qunit:bootstrap2']);
-  grunt.registerTask('test3', ['jshint', 'connect', 'qunit:bootstrap3']);
-  grunt.registerTask('testall', [
-    'jshint', 
-    'connect', 
-    'qunit:bootstrap2', 
-    'qunit:bootstrap3', 
-    'qunit:jqueryui', 
-    'qunit:plain'
-  ]);  
-  grunt.registerTask('testover', ['jshint', 'connect', 'qunit:testover']);  
+  grunt.registerTask('test', ['jshint', 'connect', 'qunit:bootstrap5']);  
   
   // Default task.
-    // fixme clean on real build
-  // grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'copy']);
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'copy']);
 
   // alive server
   grunt.registerTask('server', 'connect:server:keepalive');
   
   // build
-  grunt.registerTask('build', ['clean', 'jshint', 'concat', 'uglify', 'copy']);
+  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'copy']);
   
  //to run particular task use ":", e.g. copy:libs 
 };

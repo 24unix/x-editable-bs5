@@ -7,7 +7,7 @@ module.exports = [
     {
         entry: {
             jquery: "jquery",
-            app: "./test.js",
+            app: "./demo/demo.js",
         },
         output: {
             path: path.resolve(__dirname, "dist"), // Place them directly in dist/
