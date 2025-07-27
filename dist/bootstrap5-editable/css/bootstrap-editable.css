@@ -1,4 +1,4 @@
-/*! X-editable - v1.5.2 
+/*! X-editable Bootstrap 5 - v25.0.1 
 * A maintained fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
@@ -168,6 +168,45 @@
    border: 1px solid #dee2e6;
    border-radius: 0.375rem;
    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Bootstrap 5 inline editing fixes */
+.editable-inline .editableform {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.editable-inline .editable-input {
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 200px; /* Prevent overly wide selects */
+}
+
+.editable-inline .editable-input select {
+  max-width: 100%;
+  min-width: 120px;
+}
+
+.editable-inline .editable-buttons {
+  flex-shrink: 0;
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Improve button styling for Bootstrap 5 */
+.editable-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  line-height: 1.2;
+  border-radius: 0.25rem;
+}
+
+.editable-buttons .btn-sm {
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875rem;
 }
 
 .editable-container.editable-popup {

@@ -1,0 +1,25 @@
+# Development files
+demo/
+test/
+src/
+webpack.config.js
+Gruntfile.js
+
+# IDE files
+.idea/
+.claude/
+
+# Temporary files
+node_modules/
+*.log
+
+# Webpack dev files
+dist/app.js
+dist/app.js.*
+dist/jquery.js
+dist/jquery.js.*
+
+# Legacy files
+Package.nuspec
+bower.json
+composer.json

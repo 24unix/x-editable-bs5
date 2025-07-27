@@ -33,6 +33,11 @@ The demo showcases:
 
 ## Installation
 
+### Via npm
+```bash
+npm install x-editable-bootstrap5
+```
+
 ### Dependencies
 
 This library requires:
