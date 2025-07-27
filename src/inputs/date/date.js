@@ -33,11 +33,13 @@ $(function(){
     }    
     
     var Date = function (options) {
+        console.log('Date input constructor called');
         this.init('date', options, Date.defaults);
         this.initPicker(options, Date.defaults);
         
         // Ensure type is set correctly
         this.type = 'date';
+        console.log('Date input initialized');
     };
 
     $.fn.editableutils.inherit(Date, $.fn.editabletypes.abstractinput);    
@@ -77,22 +79,47 @@ $(function(){
         },
         
         render: function () {
+            console.log('Date render method called');
             // Ensure we have an input element
             if (!this.$input || !this.$input.length) {
+                console.log('Date render: No input element found');
                 return;
             }
+            
+            console.log('Date render: Input element found');
             
             // Initialize datepicker immediately
             try {
                 this.$input.datepicker(this.options.datepicker);
+                console.log('Date render: Datepicker initialized');
                 
                 // Force set the initial value if we have one
                 if (this.value) {
                     this.$input.datepicker('setDate', this.value);
                 }
             } catch (error) {
-                // Silently handle datepicker initialization errors
+                console.log('Date render: Datepicker error:', error);
             }
+            
+            // Use a more aggressive approach - hide buttons with multiple methods
+            var self = this;
+            setTimeout(function() {
+                // Try multiple selectors to find buttons
+                var $buttons = self.$form ? self.$form.find('.editable-buttons') : $();
+                if ($buttons.length === 0) {
+                    $buttons = self.$tpl.closest('.editableform').find('.editable-buttons');
+                }
+                if ($buttons.length === 0) {
+                    $buttons = self.$tpl.closest('.editable-container').find('.editable-buttons');
+                }
+                
+                console.log('Date render: Found buttons:', $buttons.length);
+                if ($buttons.length > 0) {
+                    $buttons.hide();
+                    $buttons.css('display', 'none');
+                    console.log('Date render: Hidden buttons');
+                }
+            }, 100);
             
             //"clear" link
             if(this.options.clear) {
@@ -178,24 +205,41 @@ $(function(){
         },
 
         autosubmit: function() {
+            // Override default autosubmit behavior for datepicker workflow
+            // Show buttons only after date selection
+            this.$input.on('changeDate', $.proxy(function(e) {
+                console.log('Date changeDate event triggered');
+                // Hide the datepicker
+                this.$input.datepicker('hide');
+                // Show save/cancel buttons after date selection
+                setTimeout($.proxy(function() {
+                    if (this.options.showbuttons !== false) {
+                        var $buttons = this.$form ? this.$form.find('.editable-buttons') : $();
+                        if ($buttons.length === 0) {
+                            $buttons = this.$tpl.closest('.editableform').find('.editable-buttons');
+                        }
+                        if ($buttons.length === 0) {
+                            $buttons = this.$tpl.closest('.editable-container').find('.editable-buttons');
+                        }
+                        
+                        console.log('Date changeDate: Found buttons to show:', $buttons.length);
+                        $buttons.show();
+                        $buttons.css('display', 'inline-block');
+                    }
+                }, this), 100);
+            }, this));
+            
+            // Keep the original click behavior as backup
             this.$input.on('mouseup', '.day', function(e){
                 if($(e.currentTarget).is('.old') || $(e.currentTarget).is('.new')) {
                     return;
                 }
+                console.log('Date mouseup on day');
                 var $form = $(this).closest('form');
                 setTimeout(function() {
-                    $form.submit();
+                    $form.find('.editable-buttons').show();
                 }, 200);
             });
-           //changedate is not suitable as it triggered when showing datepicker. see #149
-           /*
-           this.$input.on('changeDate', function(e){
-               var $form = $(this).closest('form');
-               setTimeout(function() {
-                   $form.submit();
-               }, 200);
-           });
-           */
        },
        
        /*

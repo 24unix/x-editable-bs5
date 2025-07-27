@@ -1,4 +1,4 @@
-/*! X-editable Bootstrap 5 - v25.0.1 
+/*! X-editable Bootstrap 5 - v25.0.4 
 * A maintained fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
@@ -172,29 +172,40 @@
 
 /* Bootstrap 5 inline editing fixes */
 .editable-inline .editableform {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: nowrap;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
 }
 
 .editable-inline .editable-input {
-  flex-shrink: 1;
-  min-width: 0;
-  max-width: 200px; /* Prevent overly wide selects */
+  flex-shrink: 1 !important;
+  min-width: 0 !important;
+  max-width: 200px !important; /* Prevent overly wide selects */
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
 
 .editable-inline .editable-input select {
-  max-width: 100%;
-  min-width: 120px;
+  max-width: 100% !important;
+  min-width: 120px !important;
 }
 
 .editable-inline .editable-buttons {
-  flex-shrink: 0;
-  margin-left: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+  flex-shrink: 0 !important;
+  margin-left: 0.5rem !important;
+  margin-top: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  vertical-align: middle !important;
+}
+
+.editable-inline .control-group {
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
 /* Improve button styling for Bootstrap 5 */
@@ -207,6 +218,26 @@
 .editable-buttons .btn-sm {
   padding: 0.125rem 0.25rem;
   font-size: 0.875rem;
+}
+
+/* Hide buttons initially for datepicker inputs - using discovered DOM structure */
+/* Buttons are siblings to editable-input that contains datepicker */
+.editable-input:has(.input-group.date) + .editable-buttons,
+.editable-input:has(.input-group.datepicker-above) + .editable-buttons,
+/* Buttons might be in same container as editable-input */
+*:has(.editable-input .input-group.date) .editable-buttons,
+*:has(.editable-input .input-group.datepicker-above) .editable-buttons {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Show buttons when they have the show-buttons class */
+.editable-input:has(.input-group.date) + .editable-buttons.show-buttons,
+.editable-input:has(.input-group.datepicker-above) + .editable-buttons.show-buttons,
+*:has(.editable-input .input-group.date) .editable-buttons.show-buttons,
+*:has(.editable-input .input-group.datepicker-above) .editable-buttons.show-buttons {
+  display: inline-flex !important;
+  visibility: visible !important;
 }
 
 .editable-container.editable-popup {

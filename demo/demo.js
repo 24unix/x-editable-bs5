@@ -50,7 +50,7 @@ $(function() {
     });
 
     const initialDateValue = new Date().toISOString().split('T')[0];
-    
+
     $('#datepicker').editable({
         type: 'date',
         url: 'demo/demo.php',  // URL to send the POST request

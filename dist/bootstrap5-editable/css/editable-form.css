@@ -165,3 +165,73 @@
    border-radius: 0.375rem;
    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
+
+/* Bootstrap 5 inline editing fixes */
+.editable-inline .editableform {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
+}
+
+.editable-inline .editable-input {
+  flex-shrink: 1 !important;
+  min-width: 0 !important;
+  max-width: 200px !important; /* Prevent overly wide selects */
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.editable-inline .editable-input select {
+  max-width: 100% !important;
+  min-width: 120px !important;
+}
+
+.editable-inline .editable-buttons {
+  flex-shrink: 0 !important;
+  margin-left: 0.5rem !important;
+  margin-top: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+  vertical-align: middle !important;
+}
+
+.editable-inline .control-group {
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Improve button styling for Bootstrap 5 */
+.editable-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  line-height: 1.2;
+  border-radius: 0.25rem;
+}
+
+.editable-buttons .btn-sm {
+  padding: 0.125rem 0.25rem;
+  font-size: 0.875rem;
+}
+
+/* Hide buttons initially for datepicker inputs - using discovered DOM structure */
+/* Buttons are siblings to editable-input that contains datepicker */
+.editable-input:has(.input-group.date) + .editable-buttons,
+.editable-input:has(.input-group.datepicker-above) + .editable-buttons,
+/* Buttons might be in same container as editable-input */
+*:has(.editable-input .input-group.date) .editable-buttons,
+*:has(.editable-input .input-group.datepicker-above) .editable-buttons {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Show buttons when they have the show-buttons class */
+.editable-input:has(.input-group.date) + .editable-buttons.show-buttons,
+.editable-input:has(.input-group.datepicker-above) + .editable-buttons.show-buttons,
+*:has(.editable-input .input-group.date) .editable-buttons.show-buttons,
+*:has(.editable-input .input-group.datepicker-above) .editable-buttons.show-buttons {
+  display: inline-flex !important;
+  visibility: visible !important;
+}

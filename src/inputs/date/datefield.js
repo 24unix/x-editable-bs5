@@ -33,11 +33,35 @@ Automatically shown in inline mode.
             //need to disable original event handlers
             this.$input.off('focus keydown');
             
+            // Hide buttons initially for datepicker workflow
+            var self = this;
+            setTimeout(function() {
+                if (!self.$form) {
+                    // Find buttons in the broader DOM and hide them directly
+                    var $allButtons = $('.editable-buttons:visible');
+                    if ($allButtons.length > 0) {
+                        $allButtons.each(function(i, btn) {
+                            // Directly hide this button for datepicker
+                            var $btn = $(btn);
+                            $btn.hide();
+                            $btn.css('display', 'none !important');
+                            $btn.addClass('datepicker-hidden');
+                            
+                            // Store reference for later showing
+                            self.$dateButtons = $btn;
+                        });
+                    }
+                }
+            }, 500);
+            
             //update value of datepicker
             this.$input.keyup($.proxy(function(){
                this.$tpl.removeData('date');
                this.$tpl.datepicker('update');
             }, this));
+            
+            // Manually call autosubmit to set up our event handlers
+            this.autosubmit();
             
         },   
         
@@ -86,7 +110,61 @@ Automatically shown in inline mode.
        },
        
        autosubmit: function() {
-         //reset autosubmit to empty  
+         // Override default autosubmit behavior for datepicker workflow
+         // We handle this manually with changeDate event
+         
+         // Setup the manual workflow: show buttons only after date selection
+         this.$tpl.on('changeDate', $.proxy(function(e) {
+             // Hide the datepicker using multiple methods to ensure it closes
+             setTimeout($.proxy(function() {
+                 // Try datepicker hide methods
+                 try {
+                     this.$tpl.datepicker('hide');
+                 } catch(err) {
+                     // Fallback to input method
+                 }
+                 
+                 try {
+                     this.$input.datepicker('hide');
+                 } catch(err) {
+                     // Continue to force methods
+                 }
+                 
+                 // Force hide all datepicker elements
+                 $('.datepicker').hide();
+                 $('.datepicker-dropdown').hide();
+                 
+                 // Ensure any remaining visible datepickers are hidden
+                 var $visiblePicker = $('.datepicker:visible, .datepicker-dropdown:visible');
+                 if ($visiblePicker.length > 0) {
+                     $visiblePicker.css('display', 'none !important');
+                     $visiblePicker.css('visibility', 'hidden');
+                 }
+             }, this), 10);
+             
+             // Show save/cancel buttons after date selection
+             setTimeout($.proxy(function() {
+                 if (this.options.showbuttons !== false) {
+                     var $buttons = this.$dateButtons || $('.editable-buttons.datepicker-hidden');
+                     if ($buttons.length === 0) {
+                         $buttons = this.$form ? this.$form.find('.editable-buttons') : $();
+                     }
+                     if ($buttons.length === 0) {
+                         $buttons = this.$tpl.closest('.editableform').find('.editable-buttons');
+                     }
+                     if ($buttons.length === 0) {
+                         $buttons = this.$tpl.closest('.editable-container').find('.editable-buttons');
+                     }
+                     
+                     $buttons.show();
+                     $buttons.css('display', 'inline-flex');
+                     $buttons.addClass('show-buttons');
+                     $buttons.removeClass('datepicker-hidden');
+                 }
+             }, this), 100);
+         }, this));
+         
+         // Do NOT call parent autosubmit to prevent immediate form submission
        }
     });
     
