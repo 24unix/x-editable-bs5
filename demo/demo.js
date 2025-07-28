@@ -70,4 +70,30 @@ $(function() {
         }
     });
 
+    // Note: This would require select2 library to be loaded
+    // $('#select2-test').editable({
+    //     type: 'select2',
+    //     url: 'demo/demo.php',
+    //     source: [
+    //         {id: 'us', text: 'United States'},
+    //         {id: 'gb', text: 'Great Britain'},
+    //         {id: 'ru', text: 'Russia'},
+    //         {id: 'de', text: 'Germany'},
+    //         {id: 'fr', text: 'France'},
+    //         {id: 'es', text: 'Spain'},
+    //         {id: 'it', text: 'Italy'}
+    //     ],
+    //     value: 'us',
+    //     select2: {
+    //         placeholder: 'Select Country',
+    //         allowClear: true
+    //     },
+    //     success: function(response, newValue) {
+    //         console.log('Select2 success:', newValue);
+    //     },
+    //     error: function(response) {
+    //         console.log('Select2 error:', response);
+    //     }
+    // });
+
 })

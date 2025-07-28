@@ -19,6 +19,7 @@ import "./inputs/list.js";
 import "./inputs/text.js";
 import "./inputs/textarea.js";
 import "./inputs/select.js";
+import "./inputs/select2/select2.js";
 
 // Date input (now uses npm bootstrap-datepicker)
 import "./inputs/date/date.js";

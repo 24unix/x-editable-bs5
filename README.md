@@ -10,6 +10,7 @@ This project was created when we needed a **drop-in replacement** for x-editable
 - **Bootstrap 5** compatibility 
 - **jQuery** support maintained
 - **Select dropdowns** - fully functional
+- **Select2 support** - advanced select with search/ajax
 - **Date pickers** - using bootstrap-datepicker
 - **Drop-in replacement** - minimal code changes needed
 - **Streamlined codebase** - Bootstrap 5 only, legacy code removed
@@ -28,6 +29,7 @@ php -S 0.0.0.0:8000
 
 The demo showcases:
 - Select inputs with AJAX and static data sources
+- Select2 inputs with search functionality (requires select2 library)
 - Date picker functionality
 - Basic in-place editing
 
@@ -40,10 +42,10 @@ npm install x-editable-bootstrap5
 
 ### Dependencies
 
-This library requires:
+This library automatically installs and requires:
 - **Bootstrap 5** (CSS and JS)
 - **jQuery 3.x**
-- **bootstrap-datepicker** (for date inputs)
+- **bootstrap-datepicker** (for date inputs - included as dependency)
 
 ### Quick Start
 
@@ -56,6 +58,9 @@ This library requires:
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
 <!-- Bootstrap Datepicker -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
@@ -63,6 +68,17 @@ This library requires:
 <!-- X-Editable Bootstrap 5 -->
 <link href="dist/bootstrap5-editable/css/bootstrap-editable.css" rel="stylesheet">
 <script src="dist/bootstrap5-editable/js/bootstrap-editable.js"></script>
+```
+
+**Or using npm/webpack:**
+```javascript
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/bootstrap-editable.css';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/js/bootstrap-editable.js';
 ```
 
 2. **Initialize editable elements:**
@@ -77,14 +93,69 @@ $('#my-editable').editable({
 });
 ```
 
+## Select2 Support
+
+This library includes built-in support for Select2 inputs, providing enhanced select functionality with search, AJAX loading, and more.
+
+**Note:** You need to include the Select2 library separately, as it's not bundled with x-editable.
+
+### Quick Select2 Setup
+
+1. **Include Select2 library:**
+```html
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+```
+
+2. **Use select2 type in your editable:**
+```javascript
+$('#my-select2').editable({
+    type: 'select2',
+    source: [
+        {id: 'us', text: 'United States'},
+        {id: 'gb', text: 'Great Britain'},
+        {id: 'de', text: 'Germany'}
+    ],
+    select2: {
+        placeholder: 'Select Country',
+        allowClear: true
+    },
+    url: '/update-endpoint'
+});
+```
+
+### Select2 with AJAX
+
+```javascript
+$('#ajax-select2').editable({
+    type: 'select2',
+    select2: {
+        placeholder: 'Search countries...',
+        minimumInputLength: 2,
+        ajax: {
+            url: '/search-countries',
+            dataType: 'json',
+            data: function (term) {
+                return { query: term };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    },
+    url: '/update-endpoint'
+});
+```
+
 ## Migration from Bootstrap 3
 
 If you're migrating from the original x-editable:
 
 1. **Update Bootstrap** to version 5
-2. **Add bootstrap-datepicker** dependency (no longer bundled)
-3. **Replace x-editable files** with this Bootstrap 5 version
-4. **Update CSS classes** if using custom styling (Bootstrap 3 → 5 changes)
+2. **Replace x-editable files** with this Bootstrap 5 version (bootstrap-datepicker included as dependency)
+3. **Update CSS classes** if using custom styling (Bootstrap 3 → 5 changes)
 
 The JavaScript API remains largely the same, making it a true drop-in replacement.
 

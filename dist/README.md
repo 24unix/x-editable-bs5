@@ -40,10 +40,10 @@ npm install x-editable-bootstrap5
 
 ### Dependencies
 
-This library requires:
+This library automatically installs and requires:
 - **Bootstrap 5** (CSS and JS)
 - **jQuery 3.x**
-- **bootstrap-datepicker** (for date inputs)
+- **bootstrap-datepicker** (for date inputs - included as dependency)
 
 ### Quick Start
 
@@ -56,6 +56,9 @@ This library requires:
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
 <!-- Bootstrap Datepicker -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
@@ -63,6 +66,17 @@ This library requires:
 <!-- X-Editable Bootstrap 5 -->
 <link href="dist/bootstrap5-editable/css/bootstrap-editable.css" rel="stylesheet">
 <script src="dist/bootstrap5-editable/js/bootstrap-editable.js"></script>
+```
+
+**Or using npm/webpack:**
+```javascript
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/bootstrap-editable.css';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/js/bootstrap-editable.js';
 ```
 
 2. **Initialize editable elements:**
@@ -82,9 +96,8 @@ $('#my-editable').editable({
 If you're migrating from the original x-editable:
 
 1. **Update Bootstrap** to version 5
-2. **Add bootstrap-datepicker** dependency (no longer bundled)
-3. **Replace x-editable files** with this Bootstrap 5 version
-4. **Update CSS classes** if using custom styling (Bootstrap 3 → 5 changes)
+2. **Replace x-editable files** with this Bootstrap 5 version (bootstrap-datepicker included as dependency)
+3. **Update CSS classes** if using custom styling (Bootstrap 3 → 5 changes)
 
 The JavaScript API remains largely the same, making it a true drop-in replacement.
 
