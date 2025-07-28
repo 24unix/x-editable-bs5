@@ -8,6 +8,14 @@ import $ from "jquery";
 // Import bootstrap-datepicker from npm
 import "bootstrap-datepicker";
 
+// Import select2 from npm and ensure it's available on global jQuery
+import "select2";
+// Ensure select2 is attached to window.jQuery if it exists
+if (typeof window !== 'undefined' && window.jQuery && !window.jQuery.fn.select2) {
+    // Re-import select2 to ensure it attaches to global jQuery
+    require('select2');
+}
+
 // Core editable functionality - EXACT ORDER from Gruntfile
 import "./editable-form/editable-form.js";
 import "./editable-form/editable-form-utils.js";

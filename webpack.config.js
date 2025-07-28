@@ -46,7 +46,8 @@ module.exports = [
             new CopyWebpackPlugin({
                 patterns: [
                     { from: "src/editable-form/editable-form.css", to: path.resolve(__dirname, "dist/bootstrap5-editable/css") },
-                    { from: "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css", to: path.resolve(__dirname, "dist/bootstrap5-editable/css") }
+                    { from: "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css", to: path.resolve(__dirname, "dist/bootstrap5-editable/css") },
+                    { from: "node_modules/select2/dist/css/select2.min.css", to: path.resolve(__dirname, "dist/bootstrap5-editable/css") }
                 ]
             })
         ]

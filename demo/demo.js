@@ -70,7 +70,7 @@ $(function() {
         }
     });
 
-    // Note: This would require select2 library to be loaded
+    // Select2 functionality (now bundled with x-editable)
     $('#select2-test').editable({
         type: 'select2',
         url: 'demo/demo.php',

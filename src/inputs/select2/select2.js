@@ -147,12 +147,6 @@ $(function(){
         render: function() {
             this.setClass();
 
-            // Check if Select2 is available
-            if (typeof $.fn.select2 === 'undefined') {
-                this.error = 'Select2 library is not included. Please include Select2 CSS and JS files.';
-                return;
-            }
-
             //can not apply select2 here as it calls initSelection 
             //over input that does not have correct value yet.
             //apply select2 only in value2input
@@ -215,12 +209,6 @@ $(function(){
               value = value.join(this.getSeparator());
            }
 
-           // Check if Select2 is available before using it
-           if (typeof $.fn.select2 === 'undefined') {
-               this.$input.val(value);
-               return;
-           }
-
            //for remote source just set value, text is updated by initSelection
            if(!this.$input.data('select2')) {
                this.$input.val(value);
@@ -247,18 +235,13 @@ $(function(){
                    var $el = $(this.options.scope);
                    if (!$el.data('editable').isEmpty) {
                        var data = {id: value, text: $el.text()};
-                       if (typeof $.fn.select2 !== 'undefined' && this.$input.data('select2')) {
-                           this.$input.select2('data', data); 
-                       }
+                       this.$input.select2('data', data); 
                    }
                }
            }
        },
        
        input2value: function() { 
-           if (typeof $.fn.select2 === 'undefined' || !this.$input.data('select2')) {
-               return this.$input.val();
-           }
            return this.$input.select2('val');
        },
 
@@ -291,7 +274,7 @@ $(function(){
         },
 
         getSeparator: function() {
-            return this.options.select2.separator || ($.fn.select2 && $.fn.select2.defaults ? $.fn.select2.defaults.separator : ',');
+            return this.options.select2.separator || $.fn.select2.defaults.separator;
         },
 
         /*
@@ -311,7 +294,7 @@ $(function(){
         },
         
         destroy: function() {
-	        if(this.$input && typeof $.fn.select2 !== 'undefined') {
+	        if(this.$input) {
 	            if(this.$input.data('select2')) {
 	                this.$input.select2('destroy');
 	            }

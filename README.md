@@ -46,6 +46,7 @@ This library automatically installs and requires:
 - **Bootstrap 5** (CSS and JS)
 - **jQuery 3.x**
 - **bootstrap-datepicker** (for date inputs - included as dependency)
+- **select2** (for select2 inputs - included as dependency)
 
 ### Quick Start
 
@@ -67,6 +68,7 @@ This library automatically installs and requires:
 
 <!-- X-Editable Bootstrap 5 -->
 <link href="dist/bootstrap5-editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="dist/bootstrap5-editable/css/select2.min.css" rel="stylesheet">
 <script src="dist/bootstrap5-editable/js/bootstrap-editable.js"></script>
 ```
 
@@ -78,6 +80,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
 import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
 import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/bootstrap-editable.css';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/select2.min.css';
 import 'x-editable-bootstrap5/dist/bootstrap5-editable/js/bootstrap-editable.js';
 ```
 
@@ -97,19 +100,11 @@ $('#my-editable').editable({
 
 This library includes built-in support for Select2 inputs, providing enhanced select functionality with search, AJAX loading, and more.
 
-**Note:** You need to include the Select2 library separately, as it's not bundled with x-editable.
+**Note:** Select2 is included as an npm dependency and will be automatically installed when you install x-editable-bootstrap5.
 
 ### Quick Select2 Setup
 
-1. **Include Select2 library:**
-```html
-<!-- Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-```
-
-2. **Use select2 type in your editable:**
+**Use select2 type in your editable:**
 ```javascript
 $('#my-select2').editable({
     type: 'select2',
