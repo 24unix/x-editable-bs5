@@ -10,6 +10,7 @@ This project was created when we needed a **drop-in replacement** for x-editable
 - **Bootstrap 5** compatibility 
 - **jQuery** support maintained
 - **Select dropdowns** - fully functional
+- **Select2 support** - advanced select with search/ajax
 - **Date pickers** - using bootstrap-datepicker
 - **Drop-in replacement** - minimal code changes needed
 - **Streamlined codebase** - Bootstrap 5 only, legacy code removed
@@ -28,6 +29,7 @@ php -S 0.0.0.0:8000
 
 The demo showcases:
 - Select inputs with AJAX and static data sources
+- Select2 inputs with search functionality (requires select2 library)
 - Date picker functionality
 - Basic in-place editing
 
@@ -87,6 +89,62 @@ $('#my-editable').editable({
         {value: 1, text: 'Option 1'},
         {value: 2, text: 'Option 2'}
     ],
+    url: '/update-endpoint'
+});
+```
+
+## Select2 Support
+
+This library includes built-in support for Select2 inputs, providing enhanced select functionality with search, AJAX loading, and more.
+
+**Note:** You need to include the Select2 library separately, as it's not bundled with x-editable.
+
+### Quick Select2 Setup
+
+1. **Include Select2 library:**
+```html
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+```
+
+2. **Use select2 type in your editable:**
+```javascript
+$('#my-select2').editable({
+    type: 'select2',
+    source: [
+        {id: 'us', text: 'United States'},
+        {id: 'gb', text: 'Great Britain'},
+        {id: 'de', text: 'Germany'}
+    ],
+    select2: {
+        placeholder: 'Select Country',
+        allowClear: true
+    },
+    url: '/update-endpoint'
+});
+```
+
+### Select2 with AJAX
+
+```javascript
+$('#ajax-select2').editable({
+    type: 'select2',
+    select2: {
+        placeholder: 'Search countries...',
+        minimumInputLength: 2,
+        ajax: {
+            url: '/search-countries',
+            dataType: 'json',
+            data: function (term) {
+                return { query: term };
+            },
+            results: function (data) {
+                return { results: data };
+            }
+        }
+    },
     url: '/update-endpoint'
 });
 ```
