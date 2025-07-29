@@ -1,3 +1,10 @@
 node_modules
 test/instrumented/
 *.nupkg
+dist/fonts/
+dist/app.js
+dist/app.js.map
+dist/app.js.LICENSE.txt
+dist/jquery.js
+dist/jquery.js.map
+dist/jquery.js.LICENSE.txt
