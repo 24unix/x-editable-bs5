@@ -12,8 +12,13 @@ import "bootstrap-datepicker";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
 
 
-// Import the editable functionality (attaches to jQuery.fn) - using webpack source build
-require("../src/bootstrap5-editable.js");
+// Import the editable functionality (attaches to jQuery.fn) - using built distribution
+// When using built files, you need to include select2 separately for select2 inputs
+import "select2";
+import "select2/dist/css/select2.min.css";
+import '../dist/bootstrap5-editable/js/bootstrap-editable.min.js'
+import '../dist/bootstrap5-editable/css/bootstrap-editable.css'
+
 $.fn.editable.defaults.mode = 'inline';
 
 $(function() {

@@ -34,7 +34,8 @@ function getFiles() {
         inputs+'list.js',
         inputs+'text.js',
         inputs+'textarea.js',
-        inputs+'select.js',    
+        inputs+'select.js',
+        inputs+'select2/select2.js',    
         inputs+'checklist.js',
         inputs+'html5types.js'
     ]; 
