@@ -5,12 +5,6 @@
   */
 
 /*!
- * Datepicker for Bootstrap v1.10.0 (https://github.com/uxsolutions/bootstrap-datepicker)
- *
- * Licensed under the Apache License v2.0 (https://www.apache.org/licenses/LICENSE-2.0)
- */
-
-/*!
  * Select2 4.1.0-rc.0
  * https://select2.github.io
  *

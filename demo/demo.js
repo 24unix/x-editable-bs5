@@ -7,12 +7,13 @@ import "bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-icons/font/bootstrap-icons.min.css"
 
-// bootstrap-datepicker loaded separately (not bundled in grunt build)
-import "bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js";
+// Import bootstrap-datepicker for date inputs
+import "bootstrap-datepicker";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
 
-// Import the editable functionality (attaches to jQuery.fn) - using Grunt-built version
-require("../dist/bootstrap5-editable/js/bootstrap-editable");
+
+// Import the editable functionality (attaches to jQuery.fn) - using webpack source build
+require("../src/bootstrap5-editable.js");
 $.fn.editable.defaults.mode = 'inline';
 
 $(function() {
@@ -71,6 +72,7 @@ $(function() {
     });
 
     // Select2 functionality (now bundled with x-editable)
+    
     $('#select2-test').editable({
         type: 'select2',
         url: 'demo/demo.php',
@@ -84,15 +86,16 @@ $(function() {
             {id: 'it', text: 'Italy'}
         ],
         value: 'us',
+        savenochange: true, // Allow saving even when value hasn't changed
         select2: {
             placeholder: 'Select Country',
             allowClear: true
         },
         success: function(response, newValue) {
-            console.log('Select2 success:', newValue);
+            // Handle success
         },
         error: function(response) {
-            console.log('Select2 error:', response);
+            // Handle error
         }
     });
 

@@ -166,6 +166,15 @@ $(function(){
                    $(this).closest('form').parent().triggerHandler('resize');
                });
             }
+            
+            // Fix for Select2 v4.1.0 - manually update value when selection is made
+            // This fixes the issue where select2:select event fires but the value doesn't update
+            this.$input.on('select2:select', function(e) {
+                if (e.params && e.params.data && e.params.data.id !== undefined) {
+                    $(this).val(e.params.data.id);
+                    $(this).trigger('change.select2');
+                }
+            });
        },
 
        value2html: function(value, element) {
@@ -214,11 +223,12 @@ $(function(){
                this.$input.val(value);
                this.$input.select2(this.options.select2);
            } else {
+               //Use select2's proper API to set the value instead of just the hidden input
+               // Try Select2 v4 API - first set the value, then trigger change
+               this.$input.val(value);
+               this.$input.trigger('change.select2');
                //second argument needed to separate initial change from user's click (for autosubmit)   
-               this.$input.val(value).trigger('change', true); 
-
-               //Uncaught Error: cannot call val() if initSelection() is not defined
-               //this.$input.select2('val', value);
+               this.$input.trigger('change', true); 
            }
 
            // if defined remote source AND no multiple mode AND no user's initSelection provided --> 

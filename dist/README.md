@@ -68,6 +68,7 @@ This library automatically installs and requires:
 
 <!-- X-Editable Bootstrap 5 -->
 <link href="dist/bootstrap5-editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="dist/bootstrap5-editable/css/select2.min.css" rel="stylesheet">
 <script src="dist/bootstrap5-editable/js/bootstrap-editable.js"></script>
 ```
 
@@ -79,6 +80,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
 import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
 import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/bootstrap-editable.css';
+import 'x-editable-bootstrap5/dist/bootstrap5-editable/css/select2.min.css';
 import 'x-editable-bootstrap5/dist/bootstrap5-editable/js/bootstrap-editable.js';
 ```
 

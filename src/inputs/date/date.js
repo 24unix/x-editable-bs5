@@ -26,11 +26,7 @@ $(function(){
 (function ($) {
     "use strict";
     
-    //store bootstrap-datepicker as bdateicker to exclude conflict with jQuery UI one
-    $.fn.bdatepicker = $.fn.datepicker.noConflict();
-    if(!$.fn.datepicker) { //if there were no other datepickers, keep also original name
-        $.fn.datepicker = $.fn.bdatepicker;    
-    }    
+    
     
     var Date = function (options) {
         console.log('Date input constructor called');
@@ -70,7 +66,14 @@ $(function(){
             //language
             this.options.datepicker.language = this.options.datepicker.language || 'en'; 
 
-            //store DPglobal - use datepicker instead of bdatepicker
+            //store DPglobal - ensure bootstrap-datepicker is available
+            if (!$.fn.datepicker || !$.fn.datepicker.DPGlobal) {
+                console.error('Bootstrap-datepicker not found or DPGlobal not available');
+                console.error('Please include bootstrap-datepicker.js and bootstrap-datepicker.css in your page');
+                // Set error state instead of throwing
+                this.error = 'Bootstrap-datepicker is required but not found. Please include bootstrap-datepicker.js and bootstrap-datepicker.css';
+                return;
+            }
             this.dpg = $.fn.datepicker.DPGlobal; 
 
             //store parsed formats

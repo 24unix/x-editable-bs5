@@ -5,11 +5,12 @@ Order matches Gruntfile.js for compatibility
 */
 import $ from "jquery";
 
-// Import bootstrap-datepicker from npm
-import "bootstrap-datepicker";
+// Note: bootstrap-datepicker should be included separately by the user
+// This bundle does not include bootstrap-datepicker to avoid dependency conflicts
 
-// Import select2 from npm and ensure it's available on global jQuery
+// Import select2 from npm (JS + CSS)
 import "select2";
+import "select2/dist/css/select2.min.css";
 // Ensure select2 is attached to window.jQuery if it exists
 if (typeof window !== 'undefined' && window.jQuery && !window.jQuery.fn.select2) {
     // Re-import select2 to ensure it attaches to global jQuery
