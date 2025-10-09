@@ -26,12 +26,6 @@ $(function(){
 (function ($) {
     "use strict";
     
-    //store bootstrap-datepicker as bdateicker to exclude conflict with jQuery UI one
-    $.fn.bdatepicker = $.fn.datepicker.noConflict();
-    if(!$.fn.datepicker) { //if there were no other datepickers, keep also original name
-        $.fn.datepicker = $.fn.bdatepicker;    
-    }    
-    
     var Date = function (options) {
         this.init('date', options, Date.defaults);
         this.initPicker(options, Date.defaults);
@@ -41,6 +35,18 @@ $(function(){
     
     $.extend(Date.prototype, {
         initPicker: function(options, defaults) {
+            // Initialize bootstrap-datepicker reference
+            if (!$.fn.bdatepicker) {
+                if ($.fn.datepicker) {
+                    $.fn.bdatepicker = $.fn.datepicker.noConflict();
+                    if(!$.fn.datepicker) { //if there were no other datepickers, keep also original name
+                        $.fn.datepicker = $.fn.bdatepicker;    
+                    }
+                } else {
+                    throw new Error('bootstrap-datepicker not found. Please include bootstrap-datepicker before x-editable.');
+                }
+            }
+
             //'format' is set directly from settings or data-* attributes
 
             //by default viewformat equals to format

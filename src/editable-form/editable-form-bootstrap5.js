@@ -1,7 +1,6 @@
 /*
 Editableform based on Twitter Bootstrap 5
 */
-import $ from "jquery";
 
 (function ($) {
     "use strict";
@@ -48,7 +47,7 @@ import $ from "jquery";
         '<button type="submit" class="btn btn-primary btn-sm editable-submit">'+
         '<i class="bi bi-check"></i>'+
         '</button>'+
-        '<button type="button" class="btn btn-secondary btn-sm editable-cancel">'+
+        '<button type="button" class="btn btn-outline-secondary btn-sm editable-cancel">'+
         '<i class="bi bi-x"></i>'+
         '</button>';
 

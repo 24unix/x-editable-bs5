@@ -75,16 +75,15 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                         e.preventDefault();
                     }
                     
-                    //stop propagation not required because in document click handler it checks event target
-                    //e.stopPropagation();
+                    //stop propagation to prevent interference with other click handlers
+                    e.stopPropagation();
                     
                     if(this.options.toggle === 'mouseenter') {
                         //for hover only show container
                         this.show();
                     } else {
-                        //when toggle='click' we should not close all other containers as they will be closed automatically in document click listener
-                        var closeAll = (this.options.toggle !== 'click');
-                        this.toggle(closeAll);
+                        //always close other containers when opening a new one
+                        this.toggle(true);
                     }
                 }, this));
             } else {

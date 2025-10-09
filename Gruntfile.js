@@ -268,7 +268,8 @@ module.exports = function(grunt) {
         evil: false,
         globals: {
             jQuery: true,
-            console: true
+            console: true,
+            bootstrap: true
         },  
       },
       js: [   'Gruntfile.js', 

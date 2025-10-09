@@ -1,6 +1,6 @@
 {
-  "name": "@24unix/x-editable",
-  "title": "X-editable",
+  "name": "x-editable-bs5",
+  "title": "X-editable-bs5",
   "description": "A maintained fork of x-editable for Bootstrap 5 support.",
   "version": "1.5.2",
   "homepage": "https://git.24unix.net/tracer/x-editable",
@@ -40,6 +40,9 @@
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
     "webpack": "^5.98.0"
+  },
+  "peerDependencies": {
+    "select2": "^4.0.0"
   },
   "devDependencies": {
     "css-loader": "^7.1.2",

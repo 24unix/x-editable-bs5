@@ -1,4 +1,4 @@
-/*! X-editable - v1.5.2 
+/*! X-editable-bs5 - v1.5.2 
 * A maintained fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
@@ -1540,16 +1540,15 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                         e.preventDefault();
                     }
                     
-                    //stop propagation not required because in document click handler it checks event target
-                    //e.stopPropagation();
+                    //stop propagation to prevent interference with other click handlers
+                    e.stopPropagation();
                     
                     if(this.options.toggle === 'mouseenter') {
                         //for hover only show container
                         this.show();
                     } else {
-                        //when toggle='click' we should not close all other containers as they will be closed automatically in document click listener
-                        var closeAll = (this.options.toggle !== 'click');
-                        this.toggle(closeAll);
+                        //always close other containers when opening a new one
+                        this.toggle(true);
                     }
                 }, this));
             } else {
@@ -3601,23 +3600,20 @@ Time
 }(window.jQuery));
 
 /**
-Select2 input. Based on amazing work of Igor Vaynberg https://github.com/ivaynberg/select2.  
-Please see [original select2 docs](http://ivaynberg.github.com/select2) for detailed description and options.  
+Select2 input. Based on amazing work of Igor Vaynberg https://github.com/select2/select2.  
+Please see [Select2 docs](https://select2.org/) for detailed description and options.  
  
-You should manually download and include select2 distributive:  
+You should manually download and include Select2 v4.x distributive:  
 
-    <link href="select2/select2.css" rel="stylesheet" type="text/css"></link>  
-    <script src="select2/select2.js"></script>  
+    <link href="node_modules/select2/dist/css/select2.css" rel="stylesheet" type="text/css"></link>  
+    <script src="node_modules/select2/dist/js/select2.js"></script>  
     
-To make it **bootstrap-styled** you can use css from [here](https://github.com/t0m/select2-bootstrap-css): 
+To make it **bootstrap-styled** you can use css from [select2-bootstrap-5-theme](https://github.com/apalfrey/select2-bootstrap-5-theme): 
 
-    <link href="select2-bootstrap.css" rel="stylesheet" type="text/css"></link>    
+    <link href="select2-bootstrap-5-theme.css" rel="stylesheet" type="text/css"></link>    
     
-**Note:** currently `autotext` feature does not work for select2 with `ajax` remote source.    
-You need initially put both `data-value` and element's text youself:    
-
-    <a href="#" data-type="select2" data-value="1">Text1</a>
-    
+**Note:** This version requires Select2 v4.x. For remote sources, you may need to provide custom 
+`templateResult` and `templateSelection` functions.
     
 @class select2
 @extends abstractinput
@@ -3646,36 +3642,40 @@ $(function(){
             minimumInputLength: 1
         }
     });
-    //remote source (advanced)
+    //remote source (advanced) - Select2 v4.x format
     $('#country').editable({
         select2: {
             placeholder: 'Select Country',
             allowClear: true,
             minimumInputLength: 3,
-            id: function (item) {
-                return item.CountryId;
-            },
             ajax: {
                 url: '/getCountries',
                 dataType: 'json',
-                data: function (term, page) {
-                    return { query: term };
+                delay: 250,
+                data: function (params) {
+                    return {
+                        query: params.term,
+                        page: params.page
+                    };
                 },
-                results: function (data, page) {
-                    return { results: data };
-                }
+                processResults: function (data, params) {
+                    return {
+                        results: data.map(function(item) {
+                            return {
+                                id: item.CountryId,
+                                text: item.CountryName
+                            };
+                        })
+                    };
+                },
+                cache: true
             },
-            formatResult: function (item) {
-                return item.CountryName;
+            templateResult: function (item) {
+                return item.text || item.CountryName;
             },
-            formatSelection: function (item) {
-                return item.CountryName;
-            },
-            initSelection: function (element, callback) {
-                return $.get('/getCountryById', { query: element.val() }, function (data) {
-                    callback(data);
-                });
-            } 
+            templateSelection: function (item) {
+                return item.text || item.CountryName;
+            }
         }  
     });
 });
@@ -3706,12 +3706,19 @@ $(function(){
 
             if (typeof source === 'string') {
                 options.select2.ajax = options.select2.ajax || {};
-                //some default ajax params
+                //default ajax params for Select2 v4.x
                 if(!options.select2.ajax.data) {
-                    options.select2.ajax.data = function(term) {return { query:term };};
+                    options.select2.ajax.data = function(params) {
+                        return { 
+                            query: params.term,
+                            page: params.page
+                        };
+                    };
                 }
-                if(!options.select2.ajax.results) {
-                    options.select2.ajax.results = function(data) { return {results:data };};
+                if(!options.select2.ajax.processResults) {
+                    options.select2.ajax.processResults = function(data) { 
+                        return {results: data };
+                    };
                 }
                 options.select2.ajax.url = source;
             } else {
@@ -3728,16 +3735,8 @@ $(function(){
         this.isMultiple = this.options.select2.tags || this.options.select2.multiple;
         this.isRemote = ('ajax' in this.options.select2);
 
-        //store function returning ID of item
-        //should be here as used inautotext for local source
-        this.idFunc = this.options.select2.id;
-        if (typeof(this.idFunc) !== "function") {
-            var idKey = this.idFunc || 'id';
-            this.idFunc = function (e) { return e[idKey]; };
-        }
-
         //store function that renders text in select2
-        this.formatSelection = this.options.select2.formatSelection;
+        this.formatSelection = this.options.select2.templateSelection;
         if (typeof(this.formatSelection) !== "function") {
             this.formatSelection = function (e) { return e.text; };
         }
@@ -3748,20 +3747,8 @@ $(function(){
     $.extend(Constructor.prototype, {
         render: function() {
             this.setClass();
-
-            //can not apply select2 here as it calls initSelection 
-            //over input that does not have correct value yet.
-            //apply select2 only in value2input
-            //this.$input.select2(this.options.select2);
-
-            //when data is loaded via ajax, we need to know when it's done to populate listData
-            if(this.isRemote) {
-                //listen to loaded event to populate data
-                this.$input.on('select2-loaded', $.proxy(function(e) {
-                    this.sourceData = e.items.results;
-                }, this));
-            }
-
+            
+            
             //trigger resize of editableform to re-position container in multi-valued mode
             if(this.isMultiple) {
                this.$input.on('change', function() {
@@ -3770,15 +3757,33 @@ $(function(){
             }
        },
 
+       autosubmit: function() {
+            var self = this;
+            var submitting = false;
+            
+            // Use Select2 v4.x events for autosubmit - avoid double submissions
+            this.$input.on('select2:select select2:unselect', $.proxy(function(e){
+                if (!submitting) {
+                    submitting = true;
+                    setTimeout(function() {
+                        $(self.$input).closest('form').submit();
+                        submitting = false;
+                    }, 100);
+                }
+            }, this));
+       },
+
        value2html: function(value, element) {
            var text = '', data,
                that = this;
 
-           if(this.options.select2.tags) { //in tags mode just assign value
+           // Use stored selected data if available (for visual display after selection)
+           if(this.selectedData && this.selectedData.length > 0) {
+               data = this.selectedData;
+           } else if(this.options.select2.tags) { //in tags mode just assign value
               data = value; 
-              //data = $.fn.editableutils.itemsByValue(value, this.options.select2.tags, this.idFunc);
            } else if(this.sourceData) {
-              data = $.fn.editableutils.itemsByValue(value, this.sourceData, this.idFunc); 
+              data = $.fn.editableutils.itemsByValue(value, this.sourceData, function(e) { return e.id; }); 
            } else {
               //can not get list of possible values 
               //(e.g. autotext for select2 with ajax source)
@@ -3797,7 +3802,6 @@ $(function(){
 
            text = Array.isArray(text) ? text.join(this.options.viewseparator) : text;
 
-           //$(element).text(text);
            Constructor.superclass.value2html.call(this, text, element); 
        },
 
@@ -3806,45 +3810,90 @@ $(function(){
        },
 
        value2input: function(value) {
+           
            // if value array => join it anyway
            if(Array.isArray(value)) {
               value = value.join(this.getSeparator());
            }
 
-           //for remote source just set value, text is updated by initSelection
+           // For remote sources with existing value, create option element before Select2 init
+           if(this.isRemote && !this.isMultiple && value) {
+               var $el = $(this.options.scope);
+               if (!$el.data('editable').isEmpty) {
+                   var text = $el.text();
+                   var $option = new Option(text, value, true, true);
+                   this.$input.append($option);
+               }
+           }
+
+           //initialize select2 if not already done
            if(!this.$input.data('select2')) {
                this.$input.val(value);
                this.$input.select2(this.options.select2);
-           } else {
-               //second argument needed to separate initial change from user's click (for autosubmit)   
-               this.$input.val(value).trigger('change', true); 
-
-               //Uncaught Error: cannot call val() if initSelection() is not defined
-               //this.$input.select2('val', value);
-           }
-
-           // if defined remote source AND no multiple mode AND no user's initSelection provided --> 
-           // we should somehow get text for provided id.
-           // The solution is to use element's text as text for that id (exclude empty)
-           if(this.isRemote && !this.isMultiple && !this.options.select2.initSelection) {
-               // customId and customText are methods to extract `id` and `text` from data object
-               // we can use this workaround only if user did not define these methods
-               // otherwise we cant construct data object
-               var customId = this.options.select2.id,
-                   customText = this.options.select2.formatSelection;
-
-               if(!customId && !customText) {
-                   var $el = $(this.options.scope);
-                   if (!$el.data('editable').isEmpty) {
-                       var data = {id: value, text: $el.text()};
-                       this.$input.select2('data', data); 
+               
+               // Set up minimal event handling AFTER initialization
+               this.$input.on('select2:select', $.proxy(function(e) {
+                   
+                   if (e.params && e.params.data) {
+                       var selectedData = e.params.data;
+                       this.selectedData = [selectedData];
+                       
+                       // Fix Select2's visual display by ensuring the option exists and is selected
+                       var $existingOption = this.$input.find('option[value="' + selectedData.id + '"]');
+                       if ($existingOption.length === 0) {
+                           // Create the option if it doesn't exist
+                           var $option = $('<option></option>')
+                               .attr('value', selectedData.id)
+                               .text(selectedData.text)
+                               .prop('selected', true);
+                           this.$input.append($option);
+                       } else {
+                           // Make sure existing option is selected
+                           $existingOption.prop('selected', true);
+                       }
+                       
+                       // Force Select2 to update its display
+                       this.$input.trigger('change.select2');
+                       
+                       // Mark that a selection was just made (for blur handling)
+                       this._justSelected = true;
                    }
-               }
+               }, this));
+               
+               this.$input.on('select2:unselect', $.proxy(function(e) {
+                   this.selectedData = [];
+               }, this));
+               
+               // Ensure Select2 doesn't interfere with x-editable's document click handling
+               // by making sure clicks on Select2 elements don't stop propagation
+               this.$input.on('select2:open', $.proxy(function(e) {
+                   // Find the Select2 dropdown container and ensure it allows document clicks to propagate
+                   setTimeout(function() {
+                       $('.select2-container--open .select2-dropdown').off('click.editable-prevent-close');
+                       $('.select2-container--open .select2-results').off('click.editable-prevent-close');
+                   }, 10);
+               }, this));
+               
+               
+               
+           } else {
+               //update value on existing select2
+               this.$input.val(value).trigger('change.select2'); 
            }
        },
        
        input2value: function() { 
-           return this.$input.select2('val');
+           var val = this.$input.val();
+           
+           // For Select2 v4.x, ensure we get the actual selected value
+           if (this.$input.data('select2')) {
+               var selectedData = this.$input.select2('data');
+               if (selectedData && selectedData.length > 0) {
+                   val = this.isMultiple ? selectedData.map(function(item) { return item.id; }) : selectedData[0].id;
+               }
+           }
+           
+           return val;
        },
 
        str2value: function(str, separator) {
@@ -3867,16 +3916,10 @@ $(function(){
             return val;
        },
 
-        autosubmit: function() {
-            this.$input.on('change', function(e, isInitial){
-                if(!isInitial) {
-                  $(this).closest('form').submit();
-                }
-            });
-        },
 
         getSeparator: function() {
-            return this.options.select2.separator || $.fn.select2.defaults.separator;
+            // Select2 v4.x uses different separator handling
+            return this.options.select2.separator || ',';
         },
 
         /*
@@ -3912,7 +3955,7 @@ $(function(){
         **/
         tpl:'<input type="hidden">',
         /**
-        Configuration of select2. [Full list of options](http://ivaynberg.github.com/select2).
+        Configuration of select2. [Full list of options](https://select2.org/configuration).
 
         @property select2 
         @type object
@@ -3950,7 +3993,6 @@ $(function(){
     $.fn.editabletypes.select2 = Constructor;
 
 }(window.jQuery));
-
 /**
 * Combodate - 1.0.5
 * Dropdown date and time picker.

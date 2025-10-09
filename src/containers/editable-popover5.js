@@ -3,7 +3,6 @@
  * ---------------------
  * requires bootstrap-popover.js
  */
-import { Popover } from "bootstrap";
 
 (function ($) {
     "use strict";
@@ -13,7 +12,7 @@ import { Popover } from "bootstrap";
         containerName: 'popover',
         containerDataName: 'bs.popover',
         innerCss: '.popover-body',
-        defaults: Popover.Default,
+        defaults: bootstrap.Popover.Default,
 
         initContainer: function(){
             $.extend(this.containerOptions, {
@@ -40,7 +39,27 @@ import { Popover } from "bootstrap";
 
         /* show */
         innerShow: function () {
+            // Preserve scroll position to prevent page jumping
+            var scrollTop = $(window).scrollTop();
+            var scrollLeft = $(window).scrollLeft();
+            
             this.call('show');
+            
+            // Multiple restoration attempts to handle async positioning
+            setTimeout(function() {
+                $(window).scrollTop(scrollTop);
+                $(window).scrollLeft(scrollLeft);
+            }, 0);
+            
+            setTimeout(function() {
+                $(window).scrollTop(scrollTop);
+                $(window).scrollLeft(scrollLeft);
+            }, 10);
+            
+            setTimeout(function() {
+                $(window).scrollTop(scrollTop);
+                $(window).scrollLeft(scrollLeft);
+            }, 50);
         },
 
         /* hide */
@@ -64,7 +83,7 @@ import { Popover } from "bootstrap";
         call: function() {
             if ( ! $(this.$element).data(this.containerDataName)) {
                 $(this.$element).data(this.containerDataName,
-                    Popover.getOrCreateInstance(this.$element, this.containerOptions)
+                    bootstrap.Popover.getOrCreateInstance(this.$element, this.containerOptions)
                 );
             }
 
