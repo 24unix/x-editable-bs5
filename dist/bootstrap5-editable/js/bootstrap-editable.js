@@ -1,4 +1,4 @@
-/*! X-editable-bootstrap5 - v1.5.4 
+/*! X-editable-bootstrap5 - v1.5.5 
 * A maintained fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
@@ -3881,20 +3881,26 @@ $(function(){
                this.$input.val(value).trigger('change.select2'); 
            }
        },
-       
-       input2value: function() { 
-           var val = this.$input.val();
-           
-           // For Select2 v4.x, ensure we get the actual selected value
-           if (this.$input.data('select2')) {
-               var selectedData = this.$input.select2('data');
-               if (selectedData && selectedData.length > 0) {
-                   val = this.isMultiple ? selectedData.map(function(item) { return item.id; }) : selectedData[0].id;
-               }
-           }
-           
-           return val;
-       },
+
+        input2value: function() {
+            var val = this.$input.val();
+
+            // --- Handle Bootstrap Datepicker ---
+            var dp = this.$input.data('datepicker');
+            if (dp && typeof dp.getFormattedDate === 'function') {
+                val = dp.getFormattedDate(this.options.format || 'yyyy-mm-dd');
+            }
+
+            // --- Handle Select2 v4.x ---
+            if (this.$input.data('select2')) {
+                var selectedData = this.$input.select2('data');
+                if (selectedData && selectedData.length > 0) {
+                    val = this.isMultiple ? selectedData.map(function(item) { return item.id; }) : selectedData[0].id;
+                }
+            }
+
+            return val;
+        },
 
        str2value: function(str, separator) {
             if(typeof str !== 'string' || !this.isMultiple) {
@@ -4951,9 +4957,13 @@ $(function(){
             this.$input.bdatepicker('update', value);
         },
 
-        input2value: function() { 
-            return this.$input.data('datepicker').date;
-        },       
+        input2value: function() {
+            const dp = this.$input.data('datepicker');
+            if (dp && typeof dp.getFormattedDate === 'function') {
+                return dp.getFormattedDate(this.options.format || 'yyyy-mm-dd');
+            }
+            return this.$input.val();
+        },
 
         activate: function() {
         },

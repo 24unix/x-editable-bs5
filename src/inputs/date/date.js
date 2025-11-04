@@ -114,9 +114,13 @@ $(function(){
             this.$input.bdatepicker('update', value);
         },
 
-        input2value: function() { 
-            return this.$input.data('datepicker').date;
-        },       
+        input2value: function() {
+            const dp = this.$input.data('datepicker');
+            if (dp && typeof dp.getFormattedDate === 'function') {
+                return dp.getFormattedDate(this.options.format || 'yyyy-mm-dd');
+            }
+            return this.$input.val();
+        },
 
         activate: function() {
         },
