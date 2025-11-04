@@ -1,4 +1,4 @@
-/*! X-editable-bootstrap5 - v1.5.6 
+/*! X-editable-bootstrap5 - v1.5.7 
 * A fork of x-editable for Bootstrap 5 support.
 * https://git.24unix.net/tracer/x-editable
 * Copyright (c) 2025 Micha Espey; Licensed MIT */
@@ -5065,19 +5065,41 @@ $(function(){
                 this.$tpl.parent().append($('<div class="editable-clear">').append(this.$clear));  
             }                
         },
-        
+
         value2html: function(value, element) {
-           var text = value ? this.dpg.formatDate(value, this.parsedViewFormat, this.options.datepicker.language) : '';
-           Date.superclass.value2html.call(this, text, element); 
+            let text = '';
+
+            if (value) {
+                if (typeof value === 'string') {
+                    text = value;
+                } else if (value instanceof Date && typeof value.getUTCDate === 'function') {
+                    text = this.dpg.formatDate(value, this.parsedFormat, this.options.datepicker.language);
+                }
+            }
+
+            // direct fallback: set text without using editableutils
+            if (element) {
+                element.textContent = text;
+            }
         },
 
         html2value: function(html) {
             return this.parseDate(html, this.parsedViewFormat);
-        },   
+        },
 
         value2str: function(value) {
-            return value ? this.dpg.formatDate(value, this.parsedFormat, this.options.datepicker.language) : '';
-        }, 
+            if (!value) {
+                return '';
+            }
+
+            // If value is already a string (like "2025-11-27"), just return it.
+            if (typeof value === 'string') {
+                return value;
+            }
+
+            // Otherwise, assume it's a Date object and format it.
+            return this.dpg.formatDate(value, this.parsedFormat, this.options.datepicker.language);
+        },
 
         str2value: function(str) {
             return this.parseDate(str, this.parsedFormat);
